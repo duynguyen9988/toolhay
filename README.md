@@ -12,6 +12,9 @@ Một trang Hugo tĩnh để theo dõi thu chi hằng ngày. Dữ liệu đượ
 - **Xuất CSV**: tải dữ liệu của tháng đang xem để sao lưu hoặc mở bằng Excel.
 - **Xoá theo ContentID**: mỗi giao dịch có một mã riêng; tại Dashboard có thể dán mã
   vào form "Xoá 1 giao dịch bất kỳ" và xác nhận để xoá, có nút sao chép mã ở từng dòng.
+- **AI Insights**: cuối Dashboard có phần "Phân tích AI" nhận xét theo thời gian thực
+  dựa trên dữ liệu đang lưu trên thiết bị — món đồ/thức uống chi nhiều nhất, danh mục,
+  nơi hay chi, ngày chi đỉnh điểm, so sánh tháng trước. Chạy cục bộ, không gửi dữ liệu đi đâu.
 - **Blog**: chuyên mục bài viết về hàng không, du lịch và các chủ đề liên quan
   (thư mục `content/blog/`, giao diện tại `layouts/blog/`).
 

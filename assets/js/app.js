@@ -129,6 +129,7 @@
     renderCategoryChart(items.filter(item => item.type === 'expense'), totals.expense);
     renderTrendChart(items.filter(item => item.type === 'expense'));
     renderHistory(items);
+    renderInsights();
   }
   function renderCategoryChart(expenses, total) {
     const chart = $('#category-chart');
@@ -240,6 +241,108 @@
     });
     if (isDashboard) renderDashboard();
   }
+
+  /* ---- Dashboard: phân tích AI Insights (chạy cục bộ theo thời gian thực) ---- */
+  function sumAmounts(items) { return items.reduce((total, item) => total + item.amount, 0); }
+  function percentOf(part, whole) { return whole ? Math.round((part / whole) * 100) : 0; }
+  function summarizeGroup(items, keyFn, labelFn) {
+    const groups = new Map();
+    items.forEach(item => {
+      const key = keyFn(item);
+      if (!key) return;
+      if (!groups.has(key)) groups.set(key, { label: labelFn(item), sum: 0, count: 0 });
+      const group = groups.get(key);
+      group.sum += item.amount;
+      group.count += 1;
+    });
+    return [...groups.values()].sort((a, b) => b.sum - a.sum);
+  }
+  function insightCard(icon, title, html, extraClasses = '') {
+    return `<div class="insight-card${extraClasses ? ` ${extraClasses}` : ''}">${icon ? `<span class="insight-icon">${icon}</span>` : ''}<div class="insight-body"><h4>${escapeHTML(title)}</h4><p>${html}</p></div></div>`;
+  }
+  function renderInsights() {
+    const grid = $('#insights-grid');
+    const summary = $('#insights-summary');
+    const monthKey = monthInput.value;
+    const allExpenses = transactions.filter(item => item.type === 'expense');
+    const monthExpenses = allExpenses.filter(item => item.date.startsWith(monthKey));
+    const total = sumAmounts(monthExpenses);
+    const count = monthExpenses.length;
+
+    if (!count) {
+      summary.hidden = true;
+      grid.innerHTML = '<div class="insights-empty"><span class="insights-empty-icon">◌</span><p>Chưa có khoản chi trong tháng này.</p><small>Nhập giao dịch rồi quay lại Dashboard — AI sẽ phân tích ngay theo thời gian thực.</small></div>';
+      return;
+    }
+    summary.hidden = false;
+
+    const [year, month] = monthKey.split('-').map(Number);
+    const monthLabel = new Intl.DateTimeFormat('vi-VN', { month: 'long', year: 'numeric' }).format(new Date(year, month - 1, 1));
+    const cards = [];
+
+    const activeDays = new Set(monthExpenses.map(item => item.date)).size;
+    const perActiveDay = total / activeDays;
+    cards.push(insightCard('◎', 'Bức tranh tháng này', `Trong <strong>${monthLabel}</strong> bạn chi <strong>${formatMoney(total)}</strong> qua ${number.format(count)} giao dịch, trải trên ${number.format(activeDays)} ngày — trung bình <strong>${formatMoney(perActiveDay)}</strong> mỗi ngày phát sinh chi tiêu.`));
+
+    const byCategory = summarizeGroup(monthExpenses, item => item.category, item => item.category);
+    const [topCategory, secondCategory] = byCategory;
+    if (topCategory) {
+      let text = `Danh mục <strong>${escapeHTML(topCategory.label)}</strong> dẫn đầu với <strong>${formatMoney(topCategory.sum)}</strong> (${percentOf(topCategory.sum, total)}% tổng chi)`;
+      text += secondCategory ? `, gấp <strong>${Math.round((topCategory.sum / secondCategory.sum) * 10) / 10} lần</strong> hạng nhì <strong>${escapeHTML(secondCategory.label)}</strong> (${formatMoney(secondCategory.sum)}).` : '.';
+      cards.push(insightCard(categoryIcons[topCategory.label] || '✦', 'Danh mục chi nhiều nhất', text));
+    }
+
+    const byItem = summarizeGroup(monthExpenses, item => (item.itemName || item.category || '').trim().toLowerCase(), item => item.itemName || item.category);
+    const [topItem, ...otherItems] = byItem;
+    if (topItem) {
+      let text = `Xu hướng của bạn nghiêng về <strong>"${escapeHTML(topItem.label)}"</strong>: <strong>${formatMoney(topItem.sum)}</strong> sau ${number.format(topItem.count)} lần mua, chiếm <strong>${percentOf(topItem.sum, total)}%</strong> tổng chi tháng này.`;
+      const followers = otherItems.slice(0, 2).map(group => `"${escapeHTML(group.label)}" (${formatMoney(group.sum)}, ${group.count} lần)`);
+      if (followers.length) text += ` Theo sau là ${followers.join('; ')}.`;
+      cards.push(insightCard('📈', 'Món chi tiêu nhiều nhất', text, 'is-top'));
+    }
+
+    const drinks = summarizeGroup(monthExpenses.filter(item => item.category === 'Ăn uống'), item => (item.itemName || item.category || '').trim().toLowerCase(), item => item.itemName || item.category);
+    const [topDrink] = drinks;
+    if (topDrink) {
+      let text = `Trong nhóm Ăn uống, <strong>"${escapeHTML(topDrink.label)}"</strong> là món chi nhiều nhất: <strong>${formatMoney(topDrink.sum)}</strong> sau ${number.format(topDrink.count)} lần.`;
+      const secondDrink = drinks[1];
+      if (secondDrink) text += ` Hạng nhì: "${escapeHTML(secondDrink.label)}" (${formatMoney(secondDrink.sum)}).`;
+      cards.push(insightCard('🍜', 'Đồ ăn & thức uống', text));
+    }
+
+    const byMerchant = summarizeGroup(monthExpenses, item => (item.merchant || '').trim().toLowerCase(), item => item.merchant || '');
+    const [topMerchant] = byMerchant;
+    if (topMerchant && topMerchant.label) {
+      cards.push(insightCard('🏷️', 'Nơi bạn hay chi nhất', `"<strong>${escapeHTML(topMerchant.label)}</strong>" nhận <strong>${formatMoney(topMerchant.sum)}</strong> từ bạn sau ${number.format(topMerchant.count)} lần (${percentOf(topMerchant.sum, total)}% tổng chi).`));
+    }
+
+    const byDay = summarizeGroup(monthExpenses, item => item.date, item => item.date);
+    const [topDay] = byDay;
+    if (topDay) {
+      cards.push(insightCard('🗓️', 'Ngày chi tiêu đỉnh điểm', `Ngày <strong>${formatDate(topDay.label)}</strong> bạn chi <strong>${formatMoney(topDay.sum)}</strong> trong ${number.format(topDay.count)} giao dịch — mạnh nhất tháng.`));
+    }
+
+    const biggest = [...monthExpenses].sort((a, b) => b.amount - a.amount)[0];
+    if (biggest) {
+      cards.push(insightCard('💥', 'Khoản chi lớn nhất', `"<strong>${escapeHTML(biggest.itemName || biggest.category)}</strong>" — <strong>${formatMoney(biggest.amount)}</strong> vào ${formatDate(biggest.date)}${biggest.merchant ? ` tại ${escapeHTML(biggest.merchant)}` : ''}.`));
+    }
+
+    const previousMonth = new Date(year, month - 2, 1);
+    const previousKey = `${previousMonth.getFullYear()}-${String(previousMonth.getMonth() + 1).padStart(2, '0')}`;
+    const previousTotal = sumAmounts(allExpenses.filter(item => item.date.startsWith(previousKey)));
+    if (previousTotal > 0) {
+      const diff = total - previousTotal;
+      const up = diff > 0;
+      const pct = Math.round((Math.abs(diff) / previousTotal) * 100);
+      cards.push(insightCard(up ? '↗' : '↘', up ? 'So với tháng trước · tăng' : 'So với tháng trước · giảm', `Tháng này chi <strong>${formatMoney(total)}</strong>, ${up ? 'tăng' : 'giảm'} <strong>${pct}%</strong> (${up ? '+' : '−'}${formatMoney(Math.abs(diff))}) so với <strong>${formatMoney(previousTotal)}</strong> của tháng trước.`, up ? 'is-up' : 'is-down'));
+    }
+
+    grid.innerHTML = cards.join('');
+    summary.innerHTML = topItem
+      ? `Nhận xét AI: <strong>Xu hướng chi tiêu của bạn</strong> tháng này đổ về <strong>"${escapeHTML(topItem.label)}"</strong> — <strong>${formatMoney(topItem.sum)}</strong> (${percentOf(topItem.sum, total)}% tổng chi).`
+      : (topCategory ? `Nhận xét AI: <strong>${escapeHTML(topCategory.label)}</strong> là danh mục bạn dành nhiều tiền nhất tháng này.` : '');
+  }
+
   function addTransaction(event) {
     event.preventDefault(); clearError();
     const rawAmount = amountInput.value.replace(/\D/g, '');
@@ -321,6 +424,7 @@
   monthInput.addEventListener('input', renderAll);
   $('#delete-by-id-form').addEventListener('submit', deleteById);
   $('#dashboard-history').addEventListener('click', copyId);
+  $('#refresh-insights').addEventListener('click', renderInsights);
   calculateTaxFields();
   if (location.hash === '#dashboard') setView('dashboard');
   renderAll();

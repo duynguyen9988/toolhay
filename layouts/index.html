@@ -154,7 +154,7 @@
               <tbody id="dashboard-history"><tr class="table-empty"><td colspan="6">Chưa có dữ liệu cho tháng này.</td></tr></tbody>
             </table>
           </div>
-          <div class="delete-by-id">
+        <div class="delete-by-id">
             <form id="delete-by-id-form" novalidate>
               <label for="delete-by-id-input">XOÁ 1 GIAO DỊCH BẤT KỲ</label>
               <div class="delete-by-id-row">
@@ -164,6 +164,20 @@
               <p class="delete-by-id-message" id="delete-by-id-message" role="status" aria-live="polite"></p>
             </form>
           </div>
+        </article>
+
+        <article class="dashboard-insights">
+          <div class="block-heading insights-heading">
+            <div>
+              <p class="eyebrow"><span></span> PHÂN TÍCH AI</p>
+              <h3>Insights</h3>
+              <p>Nhận xét theo thời gian thực dựa trên dữ liệu đang có trên thiết bị của bạn.</p>
+            </div>
+            <button class="text-button" type="button" id="refresh-insights">Phân tích lại</button>
+          </div>
+          <p class="insights-summary" id="insights-summary" hidden></p>
+          <div class="insights-grid" id="insights-grid" aria-live="polite"></div>
+          <p class="insights-footnote">Phân tích chạy ngay trên thiết bị này và tự cập nhật mỗi khi bạn xem Dashboard — không gửi dữ liệu đi đâu.</p>
         </article>
       </section>
     </main>

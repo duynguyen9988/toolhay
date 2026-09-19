@@ -150,9 +150,19 @@
           <div class="block-heading"><div><h3>Chi tiết giao dịch</h3><p data-dashboard-history-note>0 giao dịch trong khoảng đã chọn</p></div><button class="text-button" type="button" id="export-csv">Xuất CSV</button></div>
           <div class="table-wrap">
             <table>
-              <thead><tr><th>Ngày</th><th>Danh mục</th><th>Ghi chú</th><th>Loại</th><th>Số tiền</th></tr></thead>
-              <tbody id="dashboard-history"><tr class="table-empty"><td colspan="5">Chưa có dữ liệu cho tháng này.</td></tr></tbody>
+              <thead><tr><th>Ngày</th><th>Danh mục</th><th>Ghi chú</th><th>Loại</th><th>ContentID</th><th>Số tiền</th></tr></thead>
+              <tbody id="dashboard-history"><tr class="table-empty"><td colspan="6">Chưa có dữ liệu cho tháng này.</td></tr></tbody>
             </table>
+          </div>
+          <div class="delete-by-id">
+            <form id="delete-by-id-form" novalidate>
+              <label for="delete-by-id-input">XOÁ 1 GIAO DỊCH BẤT KỲ</label>
+              <div class="delete-by-id-row">
+                <input id="delete-by-id-input" name="contentId" placeholder="Dán ContentID của giao dịch cần xoá…" autocomplete="off" spellcheck="false">
+                <button class="delete-by-id-button" type="submit">Xác nhận xoá</button>
+              </div>
+              <p class="delete-by-id-message" id="delete-by-id-message" role="status" aria-live="polite"></p>
+            </form>
           </div>
         </article>
       </section>

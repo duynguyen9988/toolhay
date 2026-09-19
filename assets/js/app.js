@@ -164,13 +164,70 @@
   function renderHistory(items) {
     const body = $('#dashboard-history');
     $('[data-dashboard-history-note]').textContent = `${number.format(items.length)} giao dịch trong khoảng đã chọn`;
-    if (!items.length) { body.innerHTML = '<tr class="table-empty"><td colspan="5">Chưa có dữ liệu cho tháng này.</td></tr>'; return; }
+    if (!items.length) { body.innerHTML = '<tr class="table-empty"><td colspan="6">Chưa có dữ liệu cho tháng này.</td></tr>'; return; }
     body.innerHTML = items.map(item => {
       const sign = item.type === 'income' ? '+' : '−';
       const className = item.type === 'income' ? 'table-income' : 'table-expense';
       const detail = [item.itemName, item.merchant, item.note].filter(Boolean).join(' · ') || '—';
-      return `<tr><td>${formatDateShort(item.date)}</td><td>${categoryIcons[item.category] || '•••'} ${escapeHTML(item.category)}</td><td>${escapeHTML(detail)}</td><td class="table-type">${item.type === 'income' ? 'Thu nhập' : 'Chi tiêu'}</td><td class="${className}">${sign}${formatMoney(item.amount)}</td></tr>`;
+      return `<tr>
+        <td>${formatDateShort(item.date)}</td>
+        <td>${categoryIcons[item.category] || '•••'} ${escapeHTML(item.category)}</td>
+        <td>${escapeHTML(detail)}</td>
+        <td class="table-type">${item.type === 'income' ? 'Thu nhập' : 'Chi tiêu'}</td>
+        <td class="table-id"><code title="${escapeHTML(item.id)}">${escapeHTML(item.id)}</code><button class="copy-id" type="button" data-copy-id="${escapeHTML(item.id)}" aria-label="Sao chép ContentID"><span aria-hidden="true">⧉</span></button></td>
+        <td class="${className}">${sign}${formatMoney(item.amount)}</td>
+      </tr>`;
     }).join('');
+  }
+  function copyId(event) {
+    const button = event.target.closest('.copy-id');
+    if (!button) return;
+    const id = button.dataset.copyId;
+    copyToClipboard(id).then(() => {
+      const icon = button.querySelector('span');
+      if (icon) icon.textContent = '✓';
+      button.classList.add('is-copied');
+      setTimeout(() => { if (icon) icon.textContent = '⧉'; button.classList.remove('is-copied'); }, 1400);
+    });
+  }
+  function copyToClipboard(text) {
+    if (!navigator.clipboard || !navigator.clipboard.writeText) { fallbackCopy(text); return Promise.resolve(); }
+    return navigator.clipboard.writeText(text).then(() => {}, () => fallbackCopy(text));
+  }
+  function fallbackCopy(text) {
+    const textarea = document.createElement('textarea');
+    textarea.value = text;
+    textarea.style.position = 'fixed';
+    textarea.style.opacity = '0';
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand('copy');
+    textarea.remove();
+  }
+  function setDeleteMessage(type, message) {
+    const el = $('#delete-by-id-message');
+    el.textContent = message;
+    el.dataset.state = type;
+  }
+  function deleteById(event) {
+    event.preventDefault();
+    const input = $('#delete-by-id-input');
+    const raw = input.value.trim();
+    if (!raw) { setDeleteMessage('error', 'Hãy nhập ContentID của giao dịch cần xoá.'); input.focus(); return; }
+    const found = transactions.find(item => item.id === raw);
+    if (!found) { setDeleteMessage('error', `Không tìm thấy giao dịch với ContentID "${raw}".`); return; }
+    const label = [found.itemName, formatDate(found.date), found.merchant].filter(Boolean).join(' · ') || found.category;
+    const sign = found.type === 'income' ? '+' : '−';
+    if (!window.confirm(`Xoá giao dịch có ContentID "${raw}"?\n\n${label}\n${sign}${formatMoney(found.amount)}`)) {
+      setDeleteMessage('', 'Đã huỷ xoá.');
+      return;
+    }
+    transactions = transactions.filter(item => item.id !== raw);
+    saveTransactions();
+    renderAll();
+    input.value = '';
+    input.focus();
+    setDeleteMessage('ok', `Đã xoá giao dịch "${label}".`);
   }
   function setView(view) {
     const isDashboard = view === 'dashboard';
@@ -262,6 +319,8 @@
   $('#clear-all').addEventListener('click', clearAll);
   $('#export-csv').addEventListener('click', exportCSV);
   monthInput.addEventListener('input', renderAll);
+  $('#delete-by-id-form').addEventListener('submit', deleteById);
+  $('#dashboard-history').addEventListener('click', copyId);
   calculateTaxFields();
   if (location.hash === '#dashboard') setView('dashboard');
   renderAll();

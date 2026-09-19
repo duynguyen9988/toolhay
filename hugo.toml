@@ -1,0 +1,7 @@
+baseURL = "/"
+locale = "vi"
+title = "Sổ Chi Tiêu"
+disableKinds = ["taxonomy", "term", "RSS", "sitemap", "robotsTXT"]
+
+[params]
+  description = "Theo dõi chi tiêu hằng ngày, riêng tư và đơn giản."

@@ -1,0 +1,174 @@
+{{ define "main" }}
+  <div class="page-shell">
+    <header class="site-header">
+      <a class="brand" href="{{ .RelPermalink }}" aria-label="Sổ Chi Tiêu - Trang chủ">
+        <span class="brand-mark" aria-hidden="true">₫</span>
+        <span>
+          <strong>Sổ Chi Tiêu</strong>
+          <small>Mỗi ngày, rõ ràng hơn</small>
+        </span>
+      </a>
+      <nav class="main-nav" aria-label="Điều hướng chính">
+        <a class="nav-link is-active" href="#input" data-view-link="input">Input</a>
+        <a class="nav-link" href="#dashboard" data-view-link="dashboard">Dashboard</a>
+      </nav>
+      <button class="header-action" type="button" data-scroll-to="input">+ Nhập chi tiêu</button>
+    </header>
+
+    <main>
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <p class="eyebrow"><span></span> SỔ THU CHI CÁ NHÂN</p>
+          <h1 id="hero-title">Chi tiêu có chủ đích,<br><em>mỗi ngày nhẹ đầu hơn.</em></h1>
+          <p class="hero-description">Ghi lại từng khoản thu chi trong vài giây. Mọi dữ liệu được lưu riêng trên thiết bị của bạn.</p>
+          <div class="hero-actions">
+            <button class="button button-primary" type="button" data-scroll-to="input">Bắt đầu nhập liệu <span aria-hidden="true">→</span></button>
+            <button class="button button-text" type="button" data-scroll-to="dashboard">Xem tổng quan</button>
+          </div>
+        </div>
+        <aside class="hero-card" aria-label="Tóm tắt tháng hiện tại">
+          <div class="card-topline">
+            <span>THÁNG NÀY</span>
+            <span class="live-dot">Đang theo dõi</span>
+          </div>
+          <p class="hero-card-label">Đã chi</p>
+          <p class="hero-card-total" data-hero-expense>0 ₫</p>
+          <div class="hero-card-progress"><span data-hero-progress></span></div>
+          <div class="hero-card-foot">
+            <span><i class="income-icon">↗</i> Thu <b data-hero-income>0 ₫</b></span>
+            <span><i class="expense-icon">↘</i> Giao dịch <b data-hero-count>0</b></span>
+          </div>
+        </aside>
+      </section>
+
+      <div class="section-tabs" role="tablist" aria-label="Khu vực quản lý chi tiêu">
+        <button class="section-tab is-active" type="button" role="tab" aria-selected="true" data-tab="input"><span>01</span> Input <small>Nhập giao dịch</small></button>
+        <button class="section-tab" type="button" role="tab" aria-selected="false" data-tab="dashboard"><span>02</span> Dashboard <small>Tổng hợp kết quả</small></button>
+      </div>
+
+      <section id="input" class="app-section input-section" data-view="input" aria-labelledby="input-title">
+        <div class="section-intro">
+          <div>
+            <p class="eyebrow"><span></span> NHẬP LIỆU</p>
+            <h2 id="input-title">Thêm một giao dịch</h2>
+            <p>Điền nhanh khoản tiền vừa phát sinh. Bạn có thể chỉnh sửa hoặc xóa ngay bên dưới.</p>
+          </div>
+          <p class="data-note"><span class="lock">⌁</span> Lưu cục bộ trên trình duyệt</p>
+        </div>
+
+        <div class="input-layout">
+          <form class="transaction-form" id="transaction-form" novalidate>
+            <div class="type-switch" aria-label="Loại giao dịch">
+              <input type="radio" name="type" value="expense" id="type-expense" checked>
+              <label for="type-expense"><span>−</span> Chi tiêu</label>
+              <input type="radio" name="type" value="income" id="type-income">
+              <label for="type-income"><span>+</span> Thu nhập</label>
+            </div>
+
+            <div class="form-grid">
+              <label class="field field-wide">
+                <span>Số tiền <b>*</b></span>
+                <div class="amount-wrap"><input id="amount" name="amount" inputmode="numeric" autocomplete="off" placeholder="0" required><span>₫</span></div>
+                <small class="field-hint" id="amount-hint">Nhập số tiền, ví dụ: 45.000</small>
+              </label>
+              <label class="field">
+                <span>Danh mục <b>*</b></span>
+                <select id="category" name="category" required>
+                  <option value="Ăn uống">🍜 Ăn uống</option>
+                  <option value="Di chuyển">🛵 Di chuyển</option>
+                  <option value="Mua sắm">🛍️ Mua sắm</option>
+                  <option value="Hóa đơn">⌂ Hóa đơn</option>
+                  <option value="Sức khỏe">✚ Sức khỏe</option>
+                  <option value="Giải trí">✦ Giải trí</option>
+                  <option value="Khác">••• Khác</option>
+                </select>
+              </label>
+              <label class="field">
+                <span>Ngày giao dịch <b>*</b></span>
+                <input id="transaction-date" name="date" type="date" required>
+              </label>
+              <label class="field field-wide">
+                <span>Ghi chú <em>(không bắt buộc)</em></span>
+                <input id="note" name="note" type="text" maxlength="100" placeholder="Ví dụ: Cà phê với bạn">
+              </label>
+            </div>
+            <p class="form-error" id="form-error" role="alert" hidden></p>
+            <div class="form-actions">
+              <button class="button button-primary" type="submit"><span class="button-symbol">+</span> Lưu giao dịch</button>
+              <button class="button button-quiet" type="reset">Nhập lại</button>
+            </div>
+          </form>
+
+          <aside class="tip-card">
+            <div class="tip-icon">✦</div>
+            <h3>Một thói quen nhỏ</h3>
+            <p>Hãy ghi lại giao dịch ngay sau khi phát sinh. Chỉ 10 giây mỗi lần sẽ giúp bạn hiểu dòng tiền của mình hơn.</p>
+            <div class="tip-rule"></div>
+            <p class="tip-quote">“Điều gì được đo lường, điều đó được cải thiện.”</p>
+          </aside>
+        </div>
+
+        <div class="transactions-block">
+          <div class="block-heading">
+            <div><h3>Giao dịch gần đây</h3><p data-transaction-summary>Chưa có giao dịch nào.</p></div>
+            <button class="text-button" type="button" id="clear-all" hidden>Xóa tất cả</button>
+          </div>
+          <div id="transaction-list" class="transaction-list" aria-live="polite">
+            <div class="empty-state">
+              <span class="empty-icon">◌</span>
+              <p>Chưa có giao dịch nào</p>
+              <small>Khoản chi đầu tiên sẽ xuất hiện ở đây.</small>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="dashboard" class="app-section dashboard-section" data-view="dashboard" aria-labelledby="dashboard-title" hidden>
+        <div class="section-intro dashboard-intro">
+          <div>
+            <p class="eyebrow"><span></span> DASHBOARD</p>
+            <h2 id="dashboard-title">Bức tranh chi tiêu</h2>
+            <p>Theo dõi kết quả từ các giao dịch bạn đã nhập.</p>
+          </div>
+          <label class="month-picker"><span>Thời gian</span><input id="dashboard-month" type="month" aria-label="Chọn tháng xem báo cáo"></label>
+        </div>
+
+        <div class="stat-grid">
+          <article class="stat-card stat-income"><div class="stat-icon">↗</div><p>Thu nhập</p><strong data-stat-income>0 ₫</strong><small data-stat-income-note>Chưa có dữ liệu</small></article>
+          <article class="stat-card stat-expense"><div class="stat-icon">↘</div><p>Chi tiêu</p><strong data-stat-expense>0 ₫</strong><small data-stat-expense-note>Chưa có dữ liệu</small></article>
+          <article class="stat-card stat-balance"><div class="stat-icon">◎</div><p>Còn lại</p><strong data-stat-balance>0 ₫</strong><small data-stat-balance-note>Thu − Chi</small></article>
+          <article class="stat-card stat-count"><div class="stat-icon">⌁</div><p>Giao dịch</p><strong data-stat-count>0</strong><small>trong khoảng đã chọn</small></article>
+        </div>
+
+        <div class="dashboard-grid">
+          <article class="chart-card category-card">
+            <div class="chart-heading"><div><h3>Chi tiêu theo danh mục</h3><p>Phân bổ trong tháng</p></div><span class="chart-total" data-category-total>0 ₫</span></div>
+            <div class="category-chart" id="category-chart">
+              <div class="chart-empty">Chưa có khoản chi trong tháng này.</div>
+            </div>
+          </article>
+          <article class="chart-card trend-card">
+            <div class="chart-heading"><div><h3>Nhịp chi tiêu</h3><p>7 ngày gần nhất có dữ liệu</p></div></div>
+            <div class="trend-chart" id="trend-chart" aria-label="Biểu đồ chi tiêu bảy ngày"></div>
+            <div class="trend-axis" id="trend-axis"></div>
+          </article>
+        </div>
+
+        <article class="dashboard-history">
+          <div class="block-heading"><div><h3>Chi tiết giao dịch</h3><p data-dashboard-history-note>0 giao dịch trong khoảng đã chọn</p></div><button class="text-button" type="button" id="export-csv">Xuất CSV</button></div>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Ngày</th><th>Danh mục</th><th>Ghi chú</th><th>Loại</th><th>Số tiền</th></tr></thead>
+              <tbody id="dashboard-history"><tr class="table-empty"><td colspan="5">Chưa có dữ liệu cho tháng này.</td></tr></tbody>
+            </table>
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p><span>₫</span> Sổ Chi Tiêu <small>· Dữ liệu của bạn luôn ở trên thiết bị này.</small></p>
+      <p>Thiết kế để bạn chi tiêu chủ động hơn.</p>
+    </footer>
+  </div>
+{{ end }}

@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Theo dõi chi tiêu hằng ngày, riêng tư và đơn giản.">
+    <meta name="theme-color" content="#0f766e">
+    <title>{{ if .IsHome }}Sổ Chi Tiêu — Theo dõi mỗi ngày{{ else }}{{ .Title }} · Sổ Chi Tiêu{{ end }}</title>
+    {{ $style := resources.Get "css/main.css" | minify | fingerprint }}
+    <link rel="stylesheet" href="{{ $style.RelPermalink }}" integrity="{{ $style.Data.Integrity }}">
+  </head>
+  <body>
+    {{ block "main" . }}{{ end }}
+    {{ $script := resources.Get "js/app.js" | minify | fingerprint }}
+    <script src="{{ $script.RelPermalink }}" integrity="{{ $script.Data.Integrity }}" defer></script>
+  </body>
+</html>

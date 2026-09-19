@@ -1,0 +1,16 @@
+{{ define "main" }}
+  <div class="page-shell">
+    <header class="site-header">
+      <a class="brand" href="{{ .Site.Home.RelPermalink }}" aria-label="Về trang Sổ Chi Tiêu">
+        <span class="brand-mark" aria-hidden="true">₫</span>
+        <span><strong>Sổ Chi Tiêu</strong><small>Mỗi ngày, rõ ràng hơn</small></span>
+      </a>
+    </header>
+    <main class="app-section">
+      <p class="eyebrow"><span></span> CÔNG CỤ</p>
+      <h1>Ghi chép chi tiêu rõ ràng hơn.</h1>
+      <p class="hero-description">Dùng trình ghi chi tiết để lưu món hàng, nơi mua, phương thức thanh toán và VAT.</p>
+      <a class="button button-primary" href="{{ (site.GetPage "/tools/transaction-tracker").RelPermalink }}">Mở Smart Expense Logger <span aria-hidden="true">→</span></a>
+    </main>
+  </div>
+{{ end }}

@@ -1,6 +1,10 @@
 (() => {
   'use strict';
 
+  // The detailed logger is a separate Hugo page. Its own script shares this
+  // storage key, while this dashboard script only runs on the home page.
+  if (!document.getElementById('transaction-form')) return;
+
   const STORAGE_KEY = 'so-chi-tieu-transactions-v1';
   const categoryIcons = {
     'Ăn uống': '🍜', 'Di chuyển': '🛵', 'Mua sắm': '🛍️', 'Hóa đơn': '⌂',
@@ -105,10 +109,13 @@
       const icon = item.type === 'income' ? '↗' : (categoryIcons[item.category] || '•••');
       const typeLabel = item.type === 'income' ? 'Thu nhập' : 'Chi tiêu';
       const sign = item.type === 'income' ? '+' : '−';
+      const title = item.itemName || item.category;
+      const detail = item.itemName ? `${item.category} · ${formatDate(item.date)}` : formatDate(item.date);
+      const note = [item.merchant, item.note].filter(Boolean).join(' · ') || '—';
       return `<article class="transaction-item" data-id="${escapeHTML(item.id)}">
         <span class="transaction-avatar">${icon}</span>
-        <div class="transaction-main"><strong>${escapeHTML(item.category)}</strong><small>${formatDate(item.date)}</small></div>
-        <span class="transaction-note">${escapeHTML(item.note || '—')}</span>
+        <div class="transaction-main"><strong>${escapeHTML(title)}</strong><small>${escapeHTML(detail)}</small></div>
+        <span class="transaction-note">${escapeHTML(note)}</span>
         <span class="transaction-type ${item.type}">${typeLabel}</span>
         <span class="transaction-money ${item.type}">${sign}${formatMoney(item.amount)}</span>
         <button class="delete-transaction" type="button" aria-label="Xóa giao dịch ${escapeHTML(item.category)}" title="Xóa giao dịch">×</button>
@@ -169,7 +176,8 @@
     body.innerHTML = items.map(item => {
       const sign = item.type === 'income' ? '+' : '−';
       const className = item.type === 'income' ? 'table-income' : 'table-expense';
-      return `<tr><td>${formatDateShort(item.date)}</td><td>${categoryIcons[item.category] || '•••'} ${escapeHTML(item.category)}</td><td>${escapeHTML(item.note || '—')}</td><td class="table-type">${item.type === 'income' ? 'Thu nhập' : 'Chi tiêu'}</td><td class="${className}">${sign}${formatMoney(item.amount)}</td></tr>`;
+      const detail = [item.itemName, item.merchant, item.note].filter(Boolean).join(' · ') || '—';
+      return `<tr><td>${formatDateShort(item.date)}</td><td>${categoryIcons[item.category] || '•••'} ${escapeHTML(item.category)}</td><td>${escapeHTML(detail)}</td><td class="table-type">${item.type === 'income' ? 'Thu nhập' : 'Chi tiêu'}</td><td class="${className}">${sign}${formatMoney(item.amount)}</td></tr>`;
     }).join('');
   }
   function setView(view) {
@@ -222,7 +230,7 @@
     const items = sorted(getMonthTransactions());
     if (!items.length) { window.alert('Chưa có giao dịch để xuất trong tháng đang chọn.'); return; }
     const quote = value => `"${String(value || '').replace(/"/g, '""')}"`;
-    const lines = [['Ngày', 'Loại', 'Danh mục', 'Ghi chú', 'Số tiền'], ...items.map(item => [item.date, item.type === 'income' ? 'Thu nhập' : 'Chi tiêu', item.category, item.note, item.amount])];
+    const lines = [['Ngày', 'Loại', 'Danh mục', 'Món hàng', 'Nơi mua', 'Phương thức', 'Ghi chú', 'Số tiền'], ...items.map(item => [item.date, item.type === 'income' ? 'Thu nhập' : 'Chi tiêu', item.category, item.itemName, item.merchant, item.paymentMethod, item.note, item.amount])];
     const blob = new Blob(['\uFEFF' + lines.map(row => row.map(quote).join(',')).join('\n')], { type: 'text/csv;charset=utf-8;' });
     const link = document.createElement('a');
     link.href = URL.createObjectURL(blob); link.download = `so-chi-tieu-${monthInput.value}.csv`; link.click(); URL.revokeObjectURL(link.href);

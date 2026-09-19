@@ -1,0 +1,75 @@
+{{ define "main" }}
+  <div class="tracker-page">
+    <header class="tracker-header">
+      <a class="brand" href="{{ .Site.Home.RelPermalink }}" aria-label="Về trang Sổ Chi Tiêu">
+        <span class="brand-mark" aria-hidden="true">₫</span>
+        <span><strong>Sổ Chi Tiêu</strong><small>Mỗi ngày, rõ ràng hơn</small></span>
+      </a>
+      <nav class="tracker-nav" aria-label="Điều hướng">
+        <a href="{{ .Site.Home.RelPermalink }}#input">Nhập nhanh</a>
+        <a href="{{ .Site.Home.RelPermalink }}#dashboard">Dashboard</a>
+      </nav>
+      <a class="back-home" href="{{ .Site.Home.RelPermalink }}">← Trang chủ</a>
+    </header>
+
+    <main class="tracker-main">
+      <section class="tracker-heading" aria-labelledby="tracker-title">
+        <p class="eyebrow"><span></span> SMART EXPENSE LOGGER</p>
+        <h1 id="tracker-title">📝 Nhập liệu chi tiêu <em>chi tiết</em></h1>
+        <p>Ghi lại từng món hàng, nơi mua và thuế chỉ trong một lần nhập. Tổng thanh toán là số duy nhất bạn cần tự điền.</p>
+      </section>
+
+      <form class="detailed-transaction-form" id="detailed-transaction-form" novalidate>
+        <section class="logger-section logger-transaction">
+          <div class="logger-section-title"><span>1</span><div><h2>Thông tin giao dịch &amp; phương thức</h2><p>Thời điểm, nơi mua và cách thanh toán.</p></div></div>
+          <div class="logger-grid transaction-grid">
+            <label class="logger-field"><span>Ngày mua <b>*</b></span><input id="detailed-date" name="date" type="date" required></label>
+            <label class="logger-field"><span>Thẻ / PTTT <b>*</b></span><select id="payment-method" name="paymentMethod" required><option>VPBank Step Up</option><option>Thẻ tín dụng khác</option><option>Thẻ ghi nợ</option><option>Chuyển khoản</option><option>Tiền mặt</option><option>Ví điện tử</option></select></label>
+            <label class="logger-field"><span>Nơi mua (Merchant)</span><input id="merchant" name="merchant" maxlength="80" placeholder="Ví dụ: Uniqlo"></label>
+            <label class="logger-field logger-field-wide"><span>Danh mục <b>*</b></span><select id="detailed-category" name="category" required><option value="Mua sắm">🛍️ Quần áo / Thời trang</option><option value="Ăn uống">🍜 Ăn uống</option><option value="Di chuyển">🛵 Di chuyển</option><option value="Hóa đơn">⌂ Hóa đơn</option><option value="Sức khỏe">✚ Sức khỏe</option><option value="Giải trí">✦ Giải trí</option><option value="Khác">••• Khác</option></select></label>
+          </div>
+        </section>
+
+        <section class="logger-section logger-item">
+          <div class="logger-section-title"><span>2</span><div><h2>Chi tiết món hàng</h2><p>Thông tin giúp bạn tra lại giao dịch sau này.</p></div></div>
+          <div class="logger-grid item-grid">
+            <label class="logger-field"><span>Tên món hàng <b>*</b></span><input id="item-name" name="itemName" maxlength="100" required placeholder="Ví dụ: Quần lót nam"></label>
+            <label class="logger-field"><span>Mã SP / Code</span><input id="product-code" name="productCode" maxlength="60" placeholder="Ví dụ: 20002211708654"></label>
+            <label class="logger-field"><span>Kích thước (Size / Spec)</span><input id="item-size" name="size" maxlength="50" placeholder="Ví dụ: M"></label>
+            <label class="logger-field"><span>Màu sắc (Color)</span><input id="item-color" name="color" maxlength="50" placeholder="Ví dụ: Đỏ"></label>
+          </div>
+        </section>
+
+        <section class="logger-section logger-payment">
+          <div class="logger-section-title"><span>3</span><div><h2>Nhập số tiền thanh toán</h2><p>Hệ thống tự tách tiền trước thuế và tiền thuế.</p></div></div>
+          <div class="payment-input-row">
+            <label class="logger-field amount-main"><span>💰 TỔNG TIỀN THANH TOÁN <b>*</b></span><div class="logger-amount-wrap"><input id="input-amount" name="amount" inputmode="numeric" autocomplete="off" placeholder="126.000" required><span>VNĐ</span></div><small>Nhập số tiền cuối cùng trên hóa đơn.</small></label>
+            <label class="logger-field tax-field"><span>% Thuế suất</span><select id="select-tax-rate" name="taxRate"><option value="0">0%</option><option value="0.05">5%</option><option value="0.08" selected>8%</option><option value="0.1">10%</option></select><small>Chọn nhanh mức VAT.</small></label>
+          </div>
+          <div class="calculation-box" aria-live="polite">
+            <div class="calculation-title"><span>⚡</span><div><strong>TỰ ĐỘNG TÍNH TOÁN</strong><small>Cập nhật ngay khi đổi tổng tiền hoặc thuế suất.</small></div></div>
+            <div class="calculation-fields">
+              <label><span>Tiền trước thuế</span><div><input id="display-amount-before-tax" readonly value="0"><b>VNĐ</b></div></label>
+              <label><span>Tiền thuế</span><div><input id="display-tax-amount" readonly value="0"><b>VNĐ</b></div></label>
+            </div>
+          </div>
+        </section>
+
+        <section class="logger-footer">
+          <label class="logger-field"><span>Ghi chú <em>(không bắt buộc)</em></span><textarea id="detailed-note" name="note" rows="3" maxlength="300" placeholder="Ví dụ: Mua sắm cá nhân, đổi trả trong 30 ngày…"></textarea></label>
+          <p class="logger-error" id="logger-error" role="alert" hidden></p>
+          <div class="logger-actions"><button class="logger-submit" type="submit"><span>＋</span> Thêm giao dịch</button><button class="logger-reset" type="reset">Nhập lại</button></div>
+        </section>
+      </form>
+
+      <section class="logger-history" aria-labelledby="logger-history-title">
+        <div class="logger-history-heading"><div><p class="eyebrow"><span></span> TRANSACTION LOGGER</p><h2 id="logger-history-title">Giao dịch vừa ghi</h2></div><p id="logger-history-summary">Chưa có giao dịch chi tiết nào.</p></div>
+        <div id="detailed-transaction-list" class="detailed-transaction-list" aria-live="polite"><div class="logger-empty"><span>◌</span><p>Giao dịch chi tiết sẽ xuất hiện ở đây.</p></div></div>
+      </section>
+    </main>
+
+    <footer class="tracker-footer"><p><span>₫</span> Sổ Chi Tiêu</p><p>Dữ liệu được lưu cục bộ trên thiết bị của bạn.</p></footer>
+  </div>
+  {{ $trackerScript := resources.Get "js/transaction-tracker.js" | minify | fingerprint }}
+  <script src="{{ $trackerScript.RelPermalink }}" integrity="{{ $trackerScript.Data.Integrity }}" defer></script>
+{{ end }}

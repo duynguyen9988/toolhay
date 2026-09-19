@@ -7,9 +7,9 @@
           {{ if .Params.topic }}<p class="eyebrow"><span></span> {{ upper .Params.topic }}</p>{{ end }}
           <h1>{{ .Title }}</h1>
           <div class="blog-post-meta">
-            <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Ngày 2 tháng 1, 2006" }}</time>
+            <span class="meta-item"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg><time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Ngày 2 tháng 1, 2006" }}</time></span>
             <span aria-hidden="true">·</span>
-            <span>{{ .ReadingTime }} phút đọc</span>
+            <span class="meta-item"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg><span>{{ .ReadingTime }} phút đọc</span></span>
           </div>
           <p class="blog-post-desc">{{ .Description }}</p>
         </header>
@@ -20,7 +20,7 @@
 
         <footer class="blog-post-foot">
           <p>Bài viết thuộc chuyên mục <strong>{{ with .Params.topic }}{{ . }}{{ else }}Blog{{ end }}</strong>.</p>
-          <a class="button button-primary" href="{{ "blog/" | relURL }}">← Về trang Blog</a>
+          <a class="button button-primary" href="{{ "blog/" | relURL }}"><svg class="icon btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>Về trang Blog</a>
         </footer>
       </article>
     </main>

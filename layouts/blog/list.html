@@ -15,11 +15,11 @@
             <h2>{{ .Title }}</h2>
             <p>{{ .Description }}</p>
             <span class="blog-card-meta">
-              <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "02/01/2006" }}</time>
+              <span class="meta-item"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg><time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "02/01/2006" }}</time></span>
               <span aria-hidden="true">·</span>
-              <span>{{ .ReadingTime }} phút đọc</span>
+              <span class="meta-item"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg><span>{{ .ReadingTime }} phút đọc</span></span>
             </span>
-            <span class="blog-card-more">Đọc tiếp <span aria-hidden="true">→</span></span>
+            <span class="blog-card-more">Đọc tiếp <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></span>
           </a>
         {{ end }}
       </div>

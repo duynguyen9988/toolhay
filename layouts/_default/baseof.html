@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Theo dõi chi tiêu hằng ngày, riêng tư và đơn giản.">
-    <meta name="theme-color" content="#0f766e">
+    <meta name="theme-color" content="{{ if eq .Section "blog" }}#2563eb{{ else }}#0f766e{{ end }}">
     <title>{{ if .IsHome }}Sổ Chi Tiêu — Theo dõi mỗi ngày{{ else }}{{ .Title }} · Sổ Chi Tiêu{{ end }}</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -12,7 +12,7 @@
     {{ $style := resources.Get "css/main.css" | minify | fingerprint }}
     <link rel="stylesheet" href="{{ $style.RelPermalink }}" integrity="{{ $style.Data.Integrity }}">
   </head>
-  <body>
+  <body{{ if eq .Section "blog" }} class="blog-page"{{ end }}>
     {{ block "main" . }}{{ end }}
     {{ $script := resources.Get "js/app.js" | minify | fingerprint }}
     <script src="{{ $script.RelPermalink }}" integrity="{{ $script.Data.Integrity }}" defer></script>

@@ -11,10 +11,6 @@
     'Sức khỏe': '✚', 'Giải trí': '✦', 'Khác': '•••', 'Lương': '💼',
     'Thưởng': '✦', 'Kinh doanh': '↗', 'Thu nhập': '↗'
   };
-  const categoryOptions = {
-    expense: [['Ăn uống', '🍜 Ăn uống'], ['Di chuyển', '🛵 Di chuyển'], ['Mua sắm', '🛍️ Mua sắm'], ['Hóa đơn', '⌂ Hóa đơn'], ['Sức khỏe', '✚ Sức khỏe'], ['Giải trí', '✦ Giải trí'], ['Khác', '••• Khác']],
-    income: [['Lương', '💼 Lương'], ['Thưởng', '✦ Thưởng'], ['Kinh doanh', '↗ Kinh doanh'], ['Khác', '••• Khác']]
-  };
   const categoryColors = ['#08796d', '#3f9e8c', '#e4a84b', '#d8755b', '#5b9b9c', '#7b8cce', '#9c8475'];
   const $ = (selector, parent = document) => parent.querySelector(selector);
   const $$ = (selector, parent = document) => [...parent.querySelectorAll(selector)];
@@ -25,6 +21,9 @@
   const monthInput = $('#dashboard-month');
   const form = $('#transaction-form');
   const amountInput = $('#amount');
+  const taxRateInput = $('#select-tax-rate');
+  const beforeTaxInput = $('#display-amount-before-tax');
+  const taxAmountInput = $('#display-tax-amount');
   const errorElement = $('#form-error');
   let transactions = loadTransactions();
 
@@ -76,13 +75,6 @@
   function amountPercent(expense, income) {
     if (!income) return expense ? 100 : 0;
     return Math.min(100, Math.round((expense / income) * 100));
-  }
-  function renderCategoryOptions(type) {
-    const select = $('#category');
-    const previous = select.value;
-    const options = categoryOptions[type];
-    select.innerHTML = options.map(([value, label]) => `<option value="${value}">${label}</option>`).join('');
-    if (options.some(([value]) => value === previous)) select.value = previous;
   }
   function renderAll() { renderTransactions(); renderDashboard(); renderHero(); }
 
@@ -196,22 +188,27 @@
     const rawAmount = amountInput.value.replace(/\D/g, '');
     const amount = Number(rawAmount);
     const date = dateInput.value;
+    const itemName = $('#item-name').value.trim();
     if (!Number.isFinite(amount) || amount <= 0) { showError('Hãy nhập số tiền lớn hơn 0.'); amountInput.focus(); return; }
     if (!date) { showError('Hãy chọn ngày giao dịch.'); dateInput.focus(); return; }
+    if (!itemName) { showError('Hãy nhập tên món hàng.'); $('#item-name').focus(); return; }
+    const taxRate = parseFloat(taxRateInput.value) || 0;
+    const amountBeforeTax = Math.round(amount / (1 + taxRate));
     transactions.unshift({
       id: `${Date.now()}-${Math.random().toString(16).slice(2)}`,
-      type: $('input[name="type"]:checked').value,
-      amount,
-      category: $('#category').value,
+      type: 'expense', amount, category: $('#category').value,
       date,
-      note: $('#note').value.trim(),
+      paymentMethod: $('#payment-method').value, merchant: $('#merchant').value.trim(), itemName,
+      productCode: $('#product-code').value.trim(), size: $('#item-size').value.trim(), color: $('#item-color').value.trim(),
+      taxRate, amountBeforeTax, taxAmount: amount - amountBeforeTax, note: $('#note').value.trim(),
       createdAt: Date.now()
     });
     saveTransactions();
     form.reset();
     dateInput.value = localDateString(today);
-    $('#type-expense').checked = true;
+    taxRateInput.value = '0.08';
     amountInput.value = '';
+    calculateTaxFields();
     renderAll();
     amountInput.focus();
   }
@@ -238,6 +235,15 @@
   function formatAmountWhileTyping() {
     const digits = amountInput.value.replace(/\D/g, '');
     amountInput.value = digits ? number.format(Number(digits)) : '';
+    calculateTaxFields();
+  }
+  function calculateTaxFields() {
+    const amount = Number(amountInput.value.replace(/\D/g, '')) || 0;
+    const taxRate = parseFloat(taxRateInput.value) || 0;
+    const amountBeforeTax = Math.round(amount / (1 + taxRate));
+    const taxAmount = amount - amountBeforeTax;
+    beforeTaxInput.value = number.format(amountBeforeTax);
+    taxAmountInput.value = number.format(taxAmount);
   }
   $$('[data-tab]').forEach(button => button.addEventListener('click', () => { setView(button.dataset.tab); history.replaceState(null, '', `#${button.dataset.tab}`); }));
   $$('[data-view-link]').forEach(link => link.addEventListener('click', event => {
@@ -249,14 +255,14 @@
   }));
   $$('[data-scroll-to]').forEach(button => button.addEventListener('click', () => { setView(button.dataset.scrollTo); document.getElementById(button.dataset.scrollTo).scrollIntoView({ behavior: 'smooth', block: 'start' }); }));
   form.addEventListener('submit', addTransaction);
-  form.addEventListener('reset', () => setTimeout(() => { clearError(); dateInput.value = localDateString(today); renderCategoryOptions('expense'); }, 0));
+  form.addEventListener('reset', () => setTimeout(() => { clearError(); dateInput.value = localDateString(today); taxRateInput.value = '0.08'; calculateTaxFields(); }, 0));
   amountInput.addEventListener('input', formatAmountWhileTyping);
-  $$('input[name="type"]').forEach(input => input.addEventListener('change', () => renderCategoryOptions(input.value)));
+  taxRateInput.addEventListener('change', calculateTaxFields);
   $('#transaction-list').addEventListener('click', deleteTransaction);
   $('#clear-all').addEventListener('click', clearAll);
   $('#export-csv').addEventListener('click', exportCSV);
   monthInput.addEventListener('input', renderAll);
-  renderCategoryOptions('expense');
+  calculateTaxFields();
   if (location.hash === '#dashboard') setView('dashboard');
   renderAll();
 })();

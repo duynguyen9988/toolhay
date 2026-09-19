@@ -1,0 +1,33 @@
+{{ define "main" }}
+  <div class="page-shell">
+    {{ partial "blog-header.html" . }}
+    <main class="blog-main">
+      <section class="blog-hero" aria-labelledby="blog-title">
+        <p class="eyebrow"><span></span> BLOG</p>
+        <h1 id="blog-title">Ghi chép &amp; <em>góc nhìn</em></h1>
+        <p class="hero-description">Những bài viết về hàng không, du lịch, công cụ tài chính cá nhân và các chủ đề đáng đọc khác.</p>
+      </section>
+
+      <div class="blog-list">
+        {{ range .Pages.ByDate.Reverse }}
+          <a class="blog-card" href="{{ .RelPermalink }}">
+            {{ if .Params.topic }}<span class="blog-card-tag">{{ .Params.topic }}</span>{{ end }}
+            <h2>{{ .Title }}</h2>
+            <p>{{ .Description }}</p>
+            <span class="blog-card-meta">
+              <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "02/01/2006" }}</time>
+              <span aria-hidden="true">·</span>
+              <span>{{ .ReadingTime }} phút đọc</span>
+            </span>
+            <span class="blog-card-more">Đọc tiếp <span aria-hidden="true">→</span></span>
+          </a>
+        {{ end }}
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <p><span>₫</span> Sổ Chi Tiêu <small>· Dữ liệu của bạn luôn ở trên thiết bị này.</small></p>
+      <p>Thiết kế để bạn chi tiêu chủ động hơn.</p>
+    </footer>
+  </div>
+{{ end }}

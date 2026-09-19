@@ -11,6 +11,8 @@
       <nav class="main-nav" aria-label="Điều hướng chính">
         <a class="nav-link is-active" href="#input" data-view-link="input">Input</a>
         <a class="nav-link" href="#dashboard" data-view-link="dashboard">Dashboard</a>
+        <a class="nav-link" href="{{ "tools/" | relURL }}">Công cụ</a>
+        <a class="nav-link" href="{{ "blog/" | relURL }}">Blog</a>
       </nav>
       <button class="header-action" type="button" data-scroll-to="input">+ Nhập chi tiêu</button>
     </header>
@@ -56,56 +58,46 @@
           <a class="detail-logger-link" href="{{ "tools/transaction-tracker/" | relURL }}">📝 Nhập chi tiết món hàng <span>→</span></a>
         </div>
 
-        <div class="input-layout">
-          <form class="transaction-form" id="transaction-form" novalidate>
-            <div class="type-switch" aria-label="Loại giao dịch">
-              <input type="radio" name="type" value="expense" id="type-expense" checked>
-              <label for="type-expense"><span>−</span> Chi tiêu</label>
-              <input type="radio" name="type" value="income" id="type-income">
-              <label for="type-income"><span>+</span> Thu nhập</label>
-            </div>
+        <div class="input-layout detailed-input-layout">
+          <form class="detailed-transaction-form home-detailed-form" id="transaction-form" novalidate>
+            <section class="logger-section logger-transaction">
+              <div class="logger-section-title"><span>1</span><div><h3>Thông tin giao dịch &amp; phương thức</h3><p>Thời điểm, nơi mua và cách thanh toán.</p></div></div>
+              <div class="logger-grid transaction-grid">
+                <label class="logger-field"><span>Ngày mua <b>*</b></span><input id="transaction-date" name="date" type="date" required></label>
+                <label class="logger-field"><span>Thẻ / PTTT <b>*</b></span><select id="payment-method" name="paymentMethod" required><option>VPBank Step Up</option><option>Thẻ tín dụng khác</option><option>Thẻ ghi nợ</option><option>Chuyển khoản</option><option>Tiền mặt</option><option>Ví điện tử</option></select></label>
+                <label class="logger-field"><span>Nơi mua (Merchant)</span><input id="merchant" name="merchant" maxlength="80" placeholder="Ví dụ: Uniqlo"></label>
+                <label class="logger-field logger-field-wide"><span>Danh mục <b>*</b></span><select id="category" name="category" required><option value="Mua sắm">🛍️ Quần áo / Thời trang</option><option value="Ăn uống">🍜 Ăn uống</option><option value="Di chuyển">🛵 Di chuyển</option><option value="Hóa đơn">⌂ Hóa đơn</option><option value="Sức khỏe">✚ Sức khỏe</option><option value="Giải trí">✦ Giải trí</option><option value="Khác">••• Khác</option></select></label>
+              </div>
+            </section>
 
-            <div class="form-grid">
-              <label class="field field-wide">
-                <span>Số tiền <b>*</b></span>
-                <div class="amount-wrap"><input id="amount" name="amount" inputmode="numeric" autocomplete="off" placeholder="0" required><span>₫</span></div>
-                <small class="field-hint" id="amount-hint">Nhập số tiền, ví dụ: 45.000</small>
-              </label>
-              <label class="field">
-                <span>Danh mục <b>*</b></span>
-                <select id="category" name="category" required>
-                  <option value="Ăn uống">🍜 Ăn uống</option>
-                  <option value="Di chuyển">🛵 Di chuyển</option>
-                  <option value="Mua sắm">🛍️ Mua sắm</option>
-                  <option value="Hóa đơn">⌂ Hóa đơn</option>
-                  <option value="Sức khỏe">✚ Sức khỏe</option>
-                  <option value="Giải trí">✦ Giải trí</option>
-                  <option value="Khác">••• Khác</option>
-                </select>
-              </label>
-              <label class="field">
-                <span>Ngày giao dịch <b>*</b></span>
-                <input id="transaction-date" name="date" type="date" required>
-              </label>
-              <label class="field field-wide">
-                <span>Ghi chú <em>(không bắt buộc)</em></span>
-                <input id="note" name="note" type="text" maxlength="100" placeholder="Ví dụ: Cà phê với bạn">
-              </label>
-            </div>
-            <p class="form-error" id="form-error" role="alert" hidden></p>
-            <div class="form-actions">
-              <button class="button button-primary" type="submit"><span class="button-symbol">+</span> Lưu giao dịch</button>
-              <button class="button button-quiet" type="reset">Nhập lại</button>
-            </div>
+            <section class="logger-section logger-item">
+              <div class="logger-section-title"><span>2</span><div><h3>Chi tiết món hàng</h3><p>Thông tin giúp bạn tra lại giao dịch sau này.</p></div></div>
+              <div class="logger-grid item-grid">
+                <label class="logger-field"><span>Tên món hàng <b>*</b></span><input id="item-name" name="itemName" maxlength="100" required placeholder="Ví dụ: Quần lót nam"></label>
+                <label class="logger-field"><span>Mã SP / Code</span><input id="product-code" name="productCode" maxlength="60" placeholder="Ví dụ: 20002211708654"></label>
+                <label class="logger-field"><span>Kích thước (Size / Spec)</span><input id="item-size" name="size" maxlength="50" placeholder="Ví dụ: M"></label>
+                <label class="logger-field"><span>Màu sắc (Color)</span><input id="item-color" name="color" maxlength="50" placeholder="Ví dụ: Đỏ"></label>
+              </div>
+            </section>
+
+            <section class="logger-section logger-payment">
+              <div class="logger-section-title"><span>3</span><div><h3>Nhập số tiền thanh toán</h3><p>Hệ thống tự tách tiền trước thuế và tiền thuế.</p></div></div>
+              <div class="payment-input-row">
+                <label class="logger-field amount-main"><span>💰 TỔNG TIỀN THANH TOÁN <b>*</b></span><div class="logger-amount-wrap"><input id="amount" name="amount" inputmode="numeric" autocomplete="off" placeholder="126.000" required><span>VNĐ</span></div><small>Nhập số tiền cuối cùng trên hóa đơn.</small></label>
+                <label class="logger-field tax-field"><span>% Thuế suất</span><select id="select-tax-rate" name="taxRate"><option value="0">0%</option><option value="0.05">5%</option><option value="0.08" selected>8%</option><option value="0.1">10%</option></select><small>Chọn nhanh mức VAT.</small></label>
+              </div>
+              <div class="calculation-box" aria-live="polite">
+                <div class="calculation-title"><span>⚡</span><div><strong>TỰ ĐỘNG TÍNH TOÁN</strong><small>Cập nhật ngay khi đổi tổng tiền hoặc thuế suất.</small></div></div>
+                <div class="calculation-fields"><label><span>Tiền trước thuế</span><div><input id="display-amount-before-tax" readonly value="0"><b>VNĐ</b></div></label><label><span>Tiền thuế</span><div><input id="display-tax-amount" readonly value="0"><b>VNĐ</b></div></label></div>
+              </div>
+            </section>
+
+            <section class="logger-footer">
+              <label class="logger-field"><span>Ghi chú <em>(không bắt buộc)</em></span><textarea id="note" name="note" rows="3" maxlength="300" placeholder="Ví dụ: Mua sắm cá nhân, đổi trả trong 30 ngày…"></textarea></label>
+              <p class="form-error logger-error" id="form-error" role="alert" hidden></p>
+              <div class="logger-actions"><button class="logger-submit" type="submit"><span>＋</span> Thêm giao dịch</button><button class="logger-reset" type="reset">Nhập lại</button></div>
+            </section>
           </form>
-
-          <aside class="tip-card">
-            <div class="tip-icon">✦</div>
-            <h3>Một thói quen nhỏ</h3>
-            <p>Hãy ghi lại giao dịch ngay sau khi phát sinh. Chỉ 10 giây mỗi lần sẽ giúp bạn hiểu dòng tiền của mình hơn.</p>
-            <div class="tip-rule"></div>
-            <p class="tip-quote">“Điều gì được đo lường, điều đó được cải thiện.”</p>
-          </aside>
         </div>
 
         <div class="transactions-block">

@@ -10,6 +10,8 @@ Một trang Hugo tĩnh để theo dõi thu chi hằng ngày. Dữ liệu đượ
 - **Dashboard**: tổng thu, tổng chi, số dư, biểu đồ theo danh mục và nhịp chi
   tiêu 7 ngày gần nhất.
 - **Xuất CSV**: tải dữ liệu của tháng đang xem để sao lưu hoặc mở bằng Excel.
+- **Blog**: chuyên mục bài viết về hàng không, du lịch và các chủ đề liên quan
+  (thư mục `content/blog/`, giao diện tại `layouts/blog/`).
 
 ## Chạy trên máy
 

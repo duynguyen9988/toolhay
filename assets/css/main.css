@@ -439,3 +439,31 @@ h1 em { color: var(--teal); }
   .fl-history-head { align-items: flex-start; flex-direction: column; gap: 6px; }
   .flights-reset { text-align: left; }
 }
+
+/* ============================================================
+   Link Hay — sub-nav + panel nhập liệu tự đọc meta description
+   ============================================================ */
+
+.link-hay-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 26px; padding: 7px; border: 1px solid var(--line); border-radius: 14px; background: #fff; width: max-content; max-width: 100%; box-shadow: 0 1px 2px rgba(15,23,42,.04); }
+.link-hay-tabs .flights-tab { padding: 10px 16px; }
+.link-panel[hidden] { display: none; }
+.link-panel.is-active { animation: flightsFade .25s ease; }
+.link-panel.is-active + .link-panel { margin-top: 0; }
+
+.user-links { display: grid; gap: 14px; }
+.user-links:empty { display: none; }
+.user-links + .link-list { margin-top: 28px; }
+.user-links-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 2px 2px 0; color: var(--muted); font-size: 12px; }
+.user-links-head strong { color: var(--teal); font-size: 13px; }
+.user-links-head .button-text { font-size: 12px; }
+
+.link-card--user { position: relative; padding: 25px 64px 22px 26px; }
+.link-card-inner { display: flex; flex-direction: column; align-items: flex-start; color: inherit; text-decoration: none; }
+.link-card-del { position: absolute; top: 16px; right: 16px; width: 30px; height: 30px; padding: 0; border: 1px solid var(--line); border-radius: 9px; background: #fff; color: var(--muted); font-size: 14px; line-height: 1; cursor: pointer; transition: color .15s, background .15s, border-color .15s; }
+.link-card-del:hover { color: #fff; background: var(--sc-primary); border-color: var(--sc-primary); }
+
+@media (max-width: 480px) {
+  .link-hay-tabs { width: 100%; }
+  .link-hay-tabs .flights-tab { flex: 1 1 auto; justify-content: center; }
+  .link-card--user { padding: 23px 54px 19px 19px; }
+}

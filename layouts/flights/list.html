@@ -137,10 +137,16 @@
       <section class="flights-panel" id="panel-term-lookup" role="tabpanel" aria-labelledby="tab-term-lookup" data-flights-panel="term-lookup">
         <div class="flights-card">
           <h2 class="flights-card-title">Từ điển thuật ngữ hàng không</h2>
-          <p class="flights-card-sub"><span id="term-count">♻️</span> — gõ để tìm tức thì, lọc theo chữ cái hoặc danh mục.</p>
-          <input class="fl-search-input" id="term-search" type="search" placeholder="Tìm thuật ngữ, nghĩa hoặc ngữ cảnh — VD: ETA, slot, ticketing…">
+          <p class="flights-card-sub"><span id="term-count">♻️</span> — gõ để tìm tức thì, lọc theo chữ cái hoặc danh mục. Nút <b>✕</b> trên mỗi thẻ để xoá thuật ngữ (dùng khi trùng lặp).</p>
+          <input class="fl-search-input" id="term-search" type="search" placeholder="Tìm thuật ngữ, nghĩa hoặc ngữ cảnh — VD: ETA, interline, ticketing…">
           <div class="fl-alpha-bar" id="term-alpha" aria-label="Lọc theo chữ cái đầu"></div>
           <div class="fl-status-filters" id="term-cats" role="group" aria-label="Lọc theo danh mục"></div>
+        </div>
+        <div class="flights-card">
+          <div class="fl-history-head">
+            <h3 class="flights-card-title">🕒 Thuật ngữ đã lưu gần đây</h3>
+          </div>
+          <div id="term-recent" class="term-recent" aria-live="polite"></div>
         </div>
         <div id="term-results" class="term-results" aria-live="polite"></div>
       </section>

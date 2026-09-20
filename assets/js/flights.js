@@ -60,24 +60,26 @@
 
   function seedTerms() {
     return [
-      { term: 'ETA', cat: 'Flight Ops', def: 'Estimated Time of Arrival — Thời gian dự kiến hạ cánh/đến.', note: 'Ví dụ: "ETA 13:10 giờ địa phương". Được bộ phận vận hành và ATC cập nhật liên tục.' },
-      { term: 'ETD', cat: 'Flight Ops', def: 'Estimated Time of Departure — Thời gian dự kiến khởi hành.', note: 'Bị trễ thường do thời tiết, slot hoặc chờ hành khách nối chuyến.' },
-      { term: 'IATA', cat: 'General', def: 'International Air Transport Association — Hiệp hội Vận tải Hàng không Quốc tế.', note: 'Đơn vị phát hành mã sân bay 3 chữ cái (SGN, ICN) và mã hãng 2 chữ cái (VN, KE).' },
-      { term: 'ICAO', cat: 'General', def: 'International Civil Aviation Organization — Tổ chức Hàng không Dân dụng Quốc tế.', note: 'Điều hành bay dùng mã 4 chữ cái: VVTS = Tân Sơn Nhất, VHHH = Hong Kong.' },
-      { term: 'Slot', cat: 'Flight Ops', def: 'Khung giờ cất/hạ cánh được phân bổ tại sân bay bị giới hạn năng lực.', note: 'Thiếu slot có thể khiến chuyến bay bị hủy hoặc dời giờ.' },
-      { term: 'Code Share', cat: 'Commercial', def: 'Thỏa thuận để nhiều hãng cùng bán vé trên một chuyến bay thực tế.', note: 'VN có thể bán chuyến do KE điều hành: cùng máy bay nhưng khác mã hãng và số hiệu.' },
-      { term: 'BSP', cat: 'Ticketing', def: 'Billing and Settlement Plan — Hệ thống thanh toán & quyết toán vé do IATA vận hành.', note: 'Xem bài "BSP và ARC" trên blog.' },
-      { term: 'ARC', cat: 'Ticketing', def: 'Airline Reporting Corporation — Hệ thống thanh toán vé tại thị trường Bắc Mỹ.', note: 'Chức năng tương đương BSP nhưng do nhóm hãng bay Mỹ vận hành.' },
-      { term: 'ADM', cat: 'Ticketing', def: 'Agency Debit Memo — Hãng trừ tiền đại lý khi phát hiện sai sót khi phát hành vé.', note: 'Xem bài "ADM/ACM" trên blog.' },
-      { term: 'ACM', cat: 'Ticketing', def: 'Agency Credit Memo — Hãng hoàn tiền cho đại lý khi điều chỉnh có lợi cho đại lý.', note: 'Ngược chiều với ADM.' },
-      { term: 'NDC', cat: 'Ticketing', def: 'New Distribution Capability — Chuẩn trao đổi dữ liệu vé thế hệ mới của IATA.', note: 'Xem bài "NDC — cách mạng phân phối vé máy bay" trên blog.' },
-      { term: 'ATC', cat: 'Flight Ops', def: 'Air Traffic Control — Kiểm soát không lưu, điều phối máy bay trong vùng trời.', note: 'Có thể yêu cầu hoãn/đổi lộ trình khi thời tiết xấu.' },
-      { term: 'Boarding', cat: 'Ground Handling', def: 'Quy trình đưa hành khách lên máy bay theo cổng, theo nhóm.', note: 'Thông báo thường gặp: "Boarding at gate 12, Zone 3".' },
-      { term: 'Gate', cat: 'Ground Handling', def: 'Cổng lên máy bay tại nhà ga.', note: 'Gate có thể đổi sát giờ — luôn theo dõi bảng thông báo.' },
-      { term: 'Tarmac', cat: 'Ground Handling', def: 'Khu vực sân đỗ máy bay trên đường lăn/gần nhà ga.', note: 'Xe buýt đưa khách ra máy bay được gọi là tarmac coach.' },
-      { term: 'MCT', cat: 'Flight Ops', def: 'Minimum Connection Time — Thời gian nối chuyến tối thiểu tại một sân bay.', note: 'Vé nối chuyến ngắn hơn MCT có rủi ro cao.' },
-      { term: 'ETOPS', cat: 'Flight Ops', def: 'Extended-range Twin-engine Operations — Cho phép máy bay 2 động cơ bay đường dài.', note: 'Giới hạn thời gian bay tới sân bay thay thế gần nhất.' },
-      { term: 'Mayday', cat: 'General', def: 'Tín hiệu khẩn cấp quốc tế trong liên lạc vô tuyến.', note: 'Lặp ba lần "Mayday, Mayday, Mayday" khi gặp nguy hiểm nghiêm trọng.' }
+      { id: 'tm_s1', term: 'ETA', vn: 'Thời gian dự kiến đến', cat: 'Flight Ops', def: 'Estimated Time of Arrival — Thời gian dự kiến hạ cánh/đến.', note: 'Ví dụ: "ETA 13:10 giờ địa phương". Được bộ phận vận hành và ATC cập nhật liên tục.' },
+      { id: 'tm_s2', term: 'ETD', vn: 'Thời gian dự kiến khởi hành', cat: 'Flight Ops', def: 'Estimated Time of Departure — Thời gian dự kiến khởi hành.', note: 'Bị trễ thường do thời tiết, slot hoặc chờ hành khách nối chuyến.' },
+      { id: 'tm_s3', term: 'IATA', vn: 'Hiệp hội Vận tải Hàng không Quốc tế', cat: 'General', def: 'International Air Transport Association — Hiệp hội Vận tải Hàng không Quốc tế.', note: 'Đơn vị phát hành mã sân bay 3 chữ cái (SGN, ICN) và mã hãng 2 chữ cái (VN, KE).' },
+      { id: 'tm_s4', term: 'ICAO', vn: 'Tổ chức Hàng không Dân dụng Quốc tế', cat: 'General', def: 'International Civil Aviation Organization — Tổ chức Hàng không Dân dụng Quốc tế.', note: 'Điều hành bay dùng mã 4 chữ cái: VVTS = Tân Sơn Nhất, VHHH = Hong Kong.' },
+      { id: 'tm_s5', term: 'Slot', vn: 'Khung giờ cất/hạ cánh', cat: 'Flight Ops', def: 'Khung giờ cất/hạ cánh được phân bổ tại sân bay bị giới hạn năng lực.', note: 'Thiếu slot có thể khiến chuyến bay bị hủy hoặc dời giờ.' },
+      { id: 'tm_s6', term: 'Code Share', vn: 'Liên danh vé (nhiều hãng chung chuyến bay)', cat: 'Commercial', def: 'Thỏa thuận để nhiều hãng cùng bán vé trên một chuyến bay thực tế.', note: 'VN có thể bán chuyến do KE điều hành: cùng máy bay nhưng khác mã hãng và số hiệu.' },
+      { id: 'tm_s7', term: 'BSP', vn: 'Hệ thống thanh toán & quyết toán vé IATA', cat: 'Ticketing', def: 'Billing and Settlement Plan — Hệ thống thanh toán & quyết toán vé do IATA vận hành.', note: 'Xem bài "BSP và ARC" trên blog.' },
+      { id: 'tm_s8', term: 'ARC', vn: 'Hệ thống thanh toán vé Bắc Mỹ', cat: 'Ticketing', def: 'Airline Reporting Corporation — Hệ thống thanh toán vé tại thị trường Bắc Mỹ.', note: 'Chức năng tương đương BSP nhưng do nhóm hãng bay Mỹ vận hành.' },
+      { id: 'tm_s9', term: 'ADM', vn: 'Hãng trừ tiền đại lý', cat: 'Ticketing', def: 'Agency Debit Memo — Hãng trừ tiền đại lý khi phát hiện sai sót khi phát hành vé.', note: 'Xem bài "ADM/ACM" trên blog.' },
+      { id: 'tm_s10', term: 'ACM', vn: 'Hãng hoàn tiền cho đại lý', cat: 'Ticketing', def: 'Agency Credit Memo — Hãng hoàn tiền cho đại lý khi điều chỉnh có lợi cho đại lý.', note: 'Ngược chiều với ADM.' },
+      { id: 'tm_s11', term: 'NDC', vn: 'Chuẩn phân phối vé thế hệ mới', cat: 'Ticketing', def: 'New Distribution Capability — Chuẩn trao đổi dữ liệu vé thế hệ mới của IATA.', note: 'Xem bài "NDC — cách mạng phân phối vé máy bay" trên blog.' },
+      { id: 'tm_s12', term: 'ATC', vn: 'Kiểm soát không lưu', cat: 'Flight Ops', def: 'Air Traffic Control — Kiểm soát không lưu, điều phối máy bay trong vùng trời.', note: 'Có thể yêu cầu hoãn/đổi lộ trình khi thời tiết xấu.' },
+      { id: 'tm_s13', term: 'Boarding', vn: 'Lên máy bay', cat: 'Ground Handling', def: 'Quy trình đưa hành khách lên máy bay theo cổng, theo nhóm.', note: 'Thông báo thường gặp: "Boarding at gate 12, Zone 3".' },
+      { id: 'tm_s14', term: 'Gate', vn: 'Cổng lên máy bay', cat: 'Ground Handling', def: 'Cổng lên máy bay tại nhà ga.', note: 'Gate có thể đổi sát giờ — luôn theo dõi bảng thông báo.' },
+      { id: 'tm_s15', term: 'Tarmac', vn: 'Khu vực sân đỗ máy bay', cat: 'Ground Handling', def: 'Khu vực sân đỗ máy bay trên đường lăn/gần nhà ga.', note: 'Xe buýt đưa khách ra máy bay được gọi là tarmac coach.' },
+      { id: 'tm_s16', term: 'MCT', vn: 'Thời gian nối chuyến tối thiểu', cat: 'Flight Ops', def: 'Minimum Connection Time — Thời gian nối chuyến tối thiểu tại một sân bay.', note: 'Vé nối chuyến ngắn hơn MCT có rủi ro cao.' },
+      { id: 'tm_s17', term: 'ETOPS', vn: 'Bay đường dài với máy bay 2 động cơ', cat: 'Flight Ops', def: 'Extended-range Twin-engine Operations — Cho phép máy bay 2 động cơ bay đường dài.', note: 'Giới hạn thời gian bay tới sân bay thay thế gần nhất.' },
+      { id: 'tm_s18', term: 'Mayday', vn: 'Tín hiệu khẩn cấp quốc tế', cat: 'General', def: 'Tín hiệu khẩn cấp quốc tế trong liên lạc vô tuyến.', note: 'Lặp ba lần "Mayday, Mayday, Mayday" khi gặp nguy hiểm nghiêm trọng.' },
+      { id: 'tm_s19', term: 'Interline', vn: 'Thỏa thuận liên danh truyền thống', cat: 'Commercial', def: 'Interline — Thỏa thuận liên danh truyền thống: các hãng chấp nhận vé của nhau để hành khách nối chuyến trọn hành trình qua nhiều hãng.', note: 'Nền tảng của xuất vé nối chuyến liên danh, quyết toán qua hệ thống IATA như BSP.' },
+      { id: 'tm_s20', term: 'Virtual Interline', vn: 'Liên danh ảo', cat: 'Commercial', def: 'Virtual Interline — Liên danh ảo: ghép hai chặng của các hãng không có thỏa thuận liên danh truyền thống thành một hành trình, nối lịch trình qua công nghệ.', note: 'Triển khai qua nền tảng NDC/aggregator — mở rộng mạng bay không cần hợp đồng interline.' }
     ];
   }
 
@@ -87,12 +89,145 @@
   var history = storage.get(KEY_HISTORY, []);
   var terms = storage.get(KEY_TERMS, null) || seedTerms();
   if (!storage.get(KEY_TERMS, null)) storage.set(KEY_TERMS, terms);
+  terms = normalizeTerms(terms);
 
   var TAB_PANELS = ['fs-input', 'fs-inquiry', 'term-input', 'term-lookup'];
   var statusFilter = 'all';
   var termText = '';
   var termCat = 'all';
   var termAlpha = '';
+
+  /* ---------------- Thuật ngữ: chuẩn hoá + liên quan ---------------- */
+  function normalizeTerms(list) {
+    var changed = false;
+    (list || []).forEach(function (t, i) {
+      if (!t.id) { t.id = 'tm_u' + Date.now().toString(36) + '_' + i; changed = true; }
+    });
+    if (changed) storage.set(KEY_TERMS, list);
+    return list;
+  }
+
+  /* Nhãn Việt ngắn cho chip liên quan: ưu tiên trường vn, rồi ngoặc đơn trong tên */
+  function vnOf(t) {
+    if (t && t.vn) return t.vn;
+    var m = String(t && t.term || '').match(/\(([^)]+)\)/);
+    if (m) return m[1].trim();
+    var seg = String(t && t.def || '').split('—').map(function (s) { return s.trim(); });
+    if (seg.length > 1) return seg[1];
+    return seg[0] || '';
+  }
+
+  var TERM_STOP = new Set('a an the of to for and or in on with by from as at is are was were be been has have had this that these those per'.split(' '));
+
+  /* Cặp liên quan ghi chú sẵn — đảm bảo chất lượng, kèm phát hiện tự động */
+  var CURATED_REL = {
+    'ETA': ['ETD'], 'ETD': ['ETA'],
+    'BSP': ['ARC'], 'ARC': ['BSP'],
+    'ADM': ['ACM'], 'ACM': ['ADM'],
+    'IATA': ['ICAO'], 'ICAO': ['IATA'],
+    'Boarding': ['Gate'], 'Gate': ['Boarding', 'Tarmac'],
+    'Tarmac': ['Gate'],
+    'Slot': ['MCT'], 'MCT': ['Slot'],
+    'Code Share': ['Interline', 'Virtual Interline', 'NDC'],
+    'Interline': ['Virtual Interline', 'Code Share'],
+    'Virtual Interline': ['Interline', 'Code Share'],
+    'NDC': ['Code Share']
+  };
+
+  function termNameTokens(t) {
+    var name = String(t.term || '').replace(/\([^)]*\)/g, ' ');
+    return name.toLowerCase().split(/[^a-z0-9]+/).filter(function (w) {
+      return w.length >= 4 && !TERM_STOP.has(w);
+    });
+  }
+
+  function termDefTokens(t) {
+    var en = (String(t.def || '').split('—')[0] || '');
+    return en.toLowerCase().split(/[^a-z]+/).filter(function (w) {
+      return /^[a-z]{5,}$/.test(w) && !TERM_STOP.has(w);
+    });
+  }
+
+  function relatedScore(t, o) {
+    var nameT = termNameTokens(t), nameO = termNameTokens(o);
+    var defT = termDefTokens(t), defO = termDefTokens(o);
+    var sharedName = nameT.filter(function (w) { return nameO.indexOf(w) !== -1; });
+    var sharedDef = defT.filter(function (w) { return defO.indexOf(w) !== -1; });
+    var score = sharedName.length * 3 + sharedDef.length * 2 + (t.cat === o.cat ? 1 : 0);
+    return { score: score, sharedName: sharedName, sharedDef: sharedDef };
+  }
+
+  function relatedOf(t, all) {
+    var raw = [];
+    var names = {};
+    all.forEach(function (o) {
+      if (o === t || names[o.term]) return;
+      names[o.term] = true;
+      raw.push({ term: o, auto: relatedScore(t, o) });
+    });
+    var curated = (CURATED_REL[t.term] || [])
+      .map(function (nm) {
+        var hit = null;
+        all.forEach(function (o) { if (!hit && o.term === nm) hit = o; });
+        return hit ? { term: hit, auto: null } : null;
+      })
+      .filter(Boolean);
+    var merged = [];
+    var seen = {};
+    curated.forEach(function (r) {
+      if (!seen[r.term.id]) { seen[r.term.id] = true; merged.push(r); }
+    });
+    raw.sort(function (a, b) { return b.auto.score - a.auto.score; }).forEach(function (r) {
+      if (seen[r.term.id] || merged.length >= 3 || r.auto.score < 3) return;
+      seen[r.term.id] = true;
+      merged.push(r);
+    });
+    return merged;
+  }
+
+  /* Ghi chú giải thích vì sao "hệ thống" gợi ý liên quan */
+  function relatedEvidence(t, rels) {
+    var names = [], defs = [], cats = false;
+    rels.forEach(function (r) {
+      if (!r.auto) return;
+      r.auto.sharedName.forEach(function (w) { if (names.indexOf(w) === -1) names.push(w); });
+      r.auto.sharedDef.forEach(function (w) { if (defs.indexOf(w) === -1) defs.push(w); });
+      if (r.term.cat === t.cat) cats = true;
+    });
+    var bits = [];
+    if (names.length) bits.push('từ khoá chung: "' + names.join('", "') + '"');
+    if (defs.length) bits.push('khái niệm chung: "' + defs.join('", "') + '"');
+    if (cats) bits.push('cùng nhóm ' + t.cat);
+    if (!bits.length) bits.push('nhóm chủ đề liên quan');
+    return 'Hệ thống ghi chú: gợi ý dựa trên ' + bits.join(' · ');
+  }
+
+  /* ---------------- Thuật ngữ đã lưu gần đây ---------------- */
+  function timeAgo(ts) {
+    if (!ts) return '';
+    var diff = Date.now() - ts;
+    if (diff < 60e3) return 'vừa lưu';
+    if (diff < 3600e3) return Math.floor(diff / 60e3) + ' phút trước';
+    if (diff < 86400e3) return Math.floor(diff / 3600e3) + ' giờ trước';
+    var d = new Date(ts);
+    return pad(d.getDate()) + '/' + pad(d.getMonth() + 1) + '/' + d.getFullYear();
+  }
+
+  function renderRecentTerms() {
+    var box = $('#term-recent');
+    if (!box) return;
+    var recent = terms.slice().sort(function (a, b) {
+      return (b.savedAt || 0) - (a.savedAt || 0);
+    }).filter(function (t) { return t.savedAt; }).slice(0, 5);
+    if (!recent.length) {
+      box.innerHTML = '<p class="term-recent-empty">Chưa có thuật ngữ nào do bạn lưu. Thêm thuật ngữ ở mục <b>Thuật ngữ · Nhập</b> — các thuật ngữ lưu gần đây sẽ hiện ở đây.</p>';
+      return;
+    }
+    box.innerHTML = recent.map(function (t) {
+      return '<button class="term-recent-chip" type="button" data-term-recent="' + esc(t.term) + '">' +
+        esc(t.term) + '<small>' + timeAgo(t.savedAt) + '</small></button>';
+    }).join('');
+  }
 
   /* ---------------- Tiện ích chuyến bay ---------------- */
   function combinatorOf(f) {
@@ -285,10 +420,26 @@
       return;
     }
     box.innerHTML = list.map(function (t) {
+      var rels = relatedOf(t, terms);
+      var relHtml = '';
+      if (rels.length) {
+        relHtml = '<div class="term-related">' +
+          '<p class="term-related-title"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg> Có liên quan</p>' +
+          '<div class="term-related-list">' +
+            rels.map(function (r) {
+              return '<button class="term-rel" type="button" data-term-rel="' + esc(r.term.term) + '" title="Mở thuật ngữ ' + esc(r.term.term) + '">' +
+                esc(r.term.term) + '<small>' + esc(vnOf(r.term) || r.term.cat) + '</small></button>';
+            }).join('') +
+          '</div>' +
+          '<p class="term-rel-note">' + relatedEvidence(t, rels) + '</p>' +
+        '</div>';
+      }
       return '<article class="term-card">' +
+        '<button class="term-del" type="button" data-term-del="' + esc(t.id) + '" aria-label="Xoá thuật ngữ ' + esc(t.term) + '" title="Xoá thuật ngữ (dùng khi trùng lặp)">✕</button>' +
         '<div class="term-card-head"><h3>' + esc(t.term) + '</h3><span class="term-cat">' + esc(t.cat) + '</span></div>' +
         '<p class="term-def">' + esc(t.def) + '</p>' +
         (t.note ? '<p class="term-note"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z"/></svg>' + esc(t.note) + '</p>' : '') +
+        relHtml +
       '</article>';
     }).join('');
   }
@@ -463,6 +614,7 @@
       storage.set(KEY_TERMS, terms);
       filterFlights();
       renderTerms();
+      renderRecentTerms();
       showToast('Đã khôi phục dữ liệu mẫu.');
     });
 
@@ -473,14 +625,22 @@
       var def = $('#term-def').value.trim();
       if (!name) { showToast('⚠️ Nhập thuật ngữ / viết tắt.'); return; }
       if (!def) { showToast('⚠️ Nhập nghĩa tiếng Việt / định nghĩa.'); return; }
-      terms.unshift({
-        term: name, cat: $('#term-cat').value,
-        def: def, note: $('#term-note').value.trim()
-      });
+      var nv = {
+        id: genId('tm'),
+        term: name,
+        cat: $('#term-cat').value,
+        def: def,
+        note: $('#term-note').value.trim(),
+        savedAt: Date.now()
+      };
+      var m = name.match(/\(([^)]+)\)/);
+      if (m) nv.vn = m[1].trim();
+      terms.unshift(nv);
       storage.set(KEY_TERMS, terms);
       clearTermForm();
       showToast('✅ Đã lưu thuật ngữ "' + name + '"');
       renderTerms();
+      renderRecentTerms();
     });
     $('#term-clear').addEventListener('click', function () {
       clearTermForm();
@@ -510,11 +670,62 @@
       renderTerms();
     });
 
+    /* Nhấn chip liên quan -> mở thuật ngữ đó */
+    $('#term-results').addEventListener('click', function (ev) {
+      var rel = ev.target.closest ? ev.target.closest('[data-term-rel]') : null;
+      if (rel) {
+        var rt = rel.getAttribute('data-term-rel');
+        if (rt) {
+          termSearch.value = rt;
+          termText = rt.toLowerCase();
+          termCat = 'all';
+          termAlpha = '';
+          markPills('term-alpha', 'data-alpha', 'all');
+          markPills('term-cats', 'data-termcat', 'all');
+          renderTerms();
+          var results = document.getElementById('term-results');
+          if (results) results.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+        return;
+      }
+      var del = ev.target.closest ? ev.target.closest('[data-term-del]') : null;
+      if (del) {
+        var id = del.getAttribute('data-term-del');
+        var hit = null;
+        terms.forEach(function (t) { if (!hit && t.id === id) hit = t; });
+        if (!hit) return;
+        if (!window.confirm('Xoá thuật ngữ "' + hit.term + '" khỏi từ điển? (Dùng khi phát hiện trùng lặp/không cần nữa.)')) return;
+        terms = terms.filter(function (t) { return t.id !== id; });
+        storage.set(KEY_TERMS, terms);
+        renderTerms();
+        renderRecentTerms();
+        showToast('🗑️ Đã xoá thuật ngữ "' + hit.term + '"');
+      }
+    });
+
+    /* Thuật ngữ lưu gần đây -> mở ngay */
+    $('#term-recent').addEventListener('click', function (ev) {
+      var chip = ev.target.closest ? ev.target.closest('[data-term-recent]') : null;
+      if (!chip) return;
+      var nm = chip.getAttribute('data-term-recent');
+      if (!nm) return;
+      termSearch.value = nm;
+      termText = nm.toLowerCase();
+      termCat = 'all';
+      termAlpha = '';
+      markPills('term-alpha', 'data-alpha', 'all');
+      markPills('term-cats', 'data-termcat', 'all');
+      renderTerms();
+      var results = document.getElementById('term-results');
+      if (results) results.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    });
+
     buildFilterUI();
     refreshMath();
     renderFlights(flights);
     renderHistory();
     renderTerms();
+    renderRecentTerms();
   }
 
   if (document.readyState === 'loading') {

@@ -410,6 +410,45 @@ h1 em { color: var(--teal); }
 .term-note { display: flex; gap: 7px; align-items: flex-start; margin: 12px 0 0; padding-top: 12px; border-top: 1px dashed var(--line); color: var(--muted); font-size: 11.5px; line-height: 1.6; }
 .term-note .icon { flex: 0 0 auto; width: 13px; height: 13px; margin-top: 2px; color: var(--sc-accent); }
 
+/* Nút xoá thuật ngữ (trùng lặp) */
+.term-card { position: relative; }
+.term-card-head h3 { padding-right: 30px; }
+.term-del {
+  position: absolute; top: 14px; right: 14px; width: 28px; height: 28px; padding: 0;
+  border: 1px solid var(--line); border-radius: 8px; background: #fff; color: var(--muted);
+  font-size: 12px; line-height: 1; cursor: pointer; transition: color .15s, background .15s, border-color .15s;
+}
+.term-del:hover { color: #fff; background: var(--coral); border-color: var(--coral); }
+
+/* Thuật ngữ liên quan */
+.term-related { margin-top: 14px; padding-top: 13px; border-top: 1px dashed var(--line); }
+.term-related-title { display: flex; align-items: center; gap: 6px; margin: 0 0 9px; color: var(--muted); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; }
+.term-related-title .icon { width: 13px; height: 13px; color: var(--sc-accent); }
+.term-related-list { display: flex; flex-wrap: wrap; gap: 7px; }
+.term-rel {
+  display: inline-flex; flex-direction: column; align-items: flex-start; gap: 1px;
+  padding: 7px 11px; border: 1px solid #BCE2A0; border-radius: 10px; background: #EDF8E4;
+  color: #0E6B3E; text-align: left; cursor: pointer; font: inherit;
+  transition: background .15s, border-color .15s, color .15s, transform .15s;
+}
+.term-rel:hover { background: var(--sc-accent); border-color: var(--sc-accent); color: #fff; transform: translateY(-1px); }
+.term-rel strong { font-size: 12.5px; font-weight: 700; }
+.term-rel small { font-size: 10.5px; font-weight: 500; opacity: .8; }
+.term-rel-note { margin: 9px 0 0; color: var(--muted); font-size: 11px; line-height: 1.5; }
+
+/* Thuật ngữ đã lưu gần đây */
+.term-recent { display: flex; flex-wrap: wrap; gap: 8px; }
+.term-recent-empty { margin: 0; color: var(--muted); font-size: 12.5px; }
+.term-recent-empty b { color: var(--teal); font-weight: 650; }
+.term-recent-chip {
+  display: inline-flex; align-items: center; gap: 7px; padding: 8px 13px;
+  border: 1px solid var(--line); border-radius: 999px; background: #fff; color: var(--sc-dark);
+  font: inherit; font-size: 13px; font-weight: 650; cursor: pointer;
+  transition: border-color .15s, background .15s, transform .15s;
+}
+.term-recent-chip small { color: var(--muted); font-size: 10px; font-weight: 500; }
+.term-recent-chip:hover { border-color: var(--sc-accent); background: var(--mint); transform: translateY(-1px); }
+
 /* Alpha bar */
 .fl-alpha-bar { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 16px; }
 .fl-alpha-bar .fl-pill { min-width: 28px; padding: 5px 8px; font-size: 10.5px; text-align: center; }

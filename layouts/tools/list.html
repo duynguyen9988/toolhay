@@ -1,16 +1,6 @@
 {{ define "main" }}
   <div class="page-shell">
-    <header class="site-header">
-      <a class="brand" href="{{ .Site.Home.RelPermalink }}" aria-label="Về trang Sổ Chi Tiêu">
-        <span class="brand-mark" aria-hidden="true">₫</span>
-        <span><strong>Sổ Chi Tiêu</strong><small>Mỗi ngày, rõ ràng hơn</small></span>
-      </a>
-      <nav class="main-nav" aria-label="Điều hướng chính">
-        <a class="nav-link" href="{{ .Site.Home.RelPermalink }}">Trang chủ</a>
-        <a class="nav-link is-active" href="{{ "tools/" | relURL }}">Công cụ</a>
-        <a class="nav-link" href="{{ "blog/" | relURL }}">Blog</a>
-      </nav>
-    </header>
+    {{ partial "site-header.html" . }}
     <main class="app-section">
       <p class="eyebrow"><span></span> CÔNG CỤ</p>
       <h1>Ghi chép chi tiêu rõ ràng hơn.</h1>

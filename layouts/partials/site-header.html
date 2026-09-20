@@ -7,6 +7,7 @@
     <a class="nav-link{{ if .IsHome }} is-active{{ end }}" href="{{ .Site.Home.RelPermalink }}">Trang chủ</a>
     <a class="nav-link{{ if eq .Section "blog" }} is-active{{ end }}" href="{{ "blog/" | relURL }}">Blog</a>
     <a class="nav-link{{ if eq .Section "link-hay" }} is-active{{ end }}" href="{{ "link-hay/" | relURL }}">Link Hay</a>
+    <a class="nav-link{{ if eq .Section "flights" }} is-active{{ end }}" href="{{ "flights/" | relURL }}">Chuyến bay</a>
     <a class="nav-link{{ if eq .Section "tools" }} is-active{{ end }}" href="{{ "tools/" | relURL }}">Công cụ</a>
   </nav>
 </header>

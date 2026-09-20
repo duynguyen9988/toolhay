@@ -1,0 +1,156 @@
+{{ define "main" }}
+  <div class="page-shell">
+    {{ partial "site-header.html" . }}
+    <main class="flights-main">
+      <section class="flights-hero" aria-labelledby="flights-title">
+        <p class="eyebrow"><span></span> HÀNG KHÔNG · TRUNG TÂM CÔNG CỤ</p>
+        <h1 id="flights-title">Chuyến bay <em>của bạn</em></h1>
+        <p class="hero-description">Bốn công cụ nhỏ gọn: nhập &amp; tra cứu trạng thái chuyến bay, soạn thuật ngữ và tra từ điển hàng không. Toàn bộ dữ liệu được lưu ngay trên thiết bị của bạn — riêng tư, không cần tài khoản.</p>
+      </section>
+
+      <div class="flights-tabs" role="tablist" aria-label="Bốn công cụ chuyến bay">
+        <button class="flights-tab is-active" id="tab-fs-input" type="button" role="tab" aria-selected="true" aria-controls="panel-fs-input" data-flights-tab="fs-input">
+          <span class="flights-tab-ico" aria-hidden="true">➕</span> Flight Status Input
+        </button>
+        <button class="flights-tab" id="tab-fs-inquiry" type="button" role="tab" aria-selected="false" aria-controls="panel-fs-inquiry" data-flights-tab="fs-inquiry">
+          <span class="flights-tab-ico" aria-hidden="true">🔍</span> Flight Status Inquiry
+        </button>
+        <button class="flights-tab" id="tab-term-input" type="button" role="tab" aria-selected="false" aria-controls="panel-term-input" data-flights-tab="term-input">
+          <span class="flights-tab-ico" aria-hidden="true">📝</span> Thuật ngữ Hàng không · Nhập
+        </button>
+        <button class="flights-tab" id="tab-term-lookup" type="button" role="tab" aria-selected="false" aria-controls="panel-term-lookup" data-flights-tab="term-lookup">
+          <span class="flights-tab-ico" aria-hidden="true">📚</span> Thuật ngữ Hàng không · Tra cứu
+        </button>
+      </div>
+
+      <section class="flights-panel is-active" id="panel-fs-input" role="tabpanel" aria-labelledby="tab-fs-input" data-flights-panel="fs-input">
+        <div class="flights-card">
+          <h2 class="flights-card-title">Nhập liệu trạng thái chuyến bay</h2>
+          <p class="flights-card-sub">Combinator và Thời lượng được tính tự động khi bạn nhập.</p>
+          <form class="flights-form" id="flight-form" autocomplete="off">
+            <div class="fl-field">
+              <label for="fl-dept">Sân bay đi (IATA)</label>
+              <input id="fl-dept" name="dept" maxlength="3" placeholder="SGN" required>
+            </div>
+            <div class="fl-field">
+              <label for="fl-airline">Mã hãng (IATA)</label>
+              <input id="fl-airline" name="airline" maxlength="2" placeholder="VN" required>
+            </div>
+            <div class="fl-field">
+              <label for="fl-flight">Số hiệu chuyến bay</label>
+              <input id="fl-flight" name="flight" inputmode="numeric" maxlength="4" placeholder="408" required>
+            </div>
+            <div class="fl-field">
+              <label for="fl-date">Ngày bay</label>
+              <input id="fl-date" name="date" type="date" required>
+            </div>
+            <div class="fl-field fl-span-2">
+              <label for="fl-combinator">Combinator <small>(tự động)</small></label>
+              <input id="fl-combinator" readonly placeholder="SGNVN408">
+            </div>
+            <div class="fl-field fl-span-2">
+              <label for="fl-duration">Thời lượng bay <small>(tự động)</small></label>
+              <input id="fl-duration" readonly placeholder="6 giờ 30 phút">
+            </div>
+            <div class="fl-field">
+              <label for="fl-terminal">Ga đi (Terminal)</label>
+              <input id="fl-terminal" name="terminal" maxlength="2" placeholder="2">
+            </div>
+            <div class="fl-field">
+              <label for="fl-dept-time">Giờ khởi hành (HH:MM)</label>
+              <input id="fl-dept-time" name="deptTime" type="time" required>
+            </div>
+            <div class="fl-field">
+              <label for="fl-arr">Sân bay đến (IATA)</label>
+              <input id="fl-arr" name="arr" maxlength="3" placeholder="ICN" required>
+            </div>
+            <div class="fl-field">
+              <label for="fl-arr-time">Giờ hạ cánh (HH:MM)</label>
+              <input id="fl-arr-time" name="arrTime" type="time" required>
+            </div>
+            <div class="fl-actions fl-span-4">
+              <button class="button button-primary" type="submit">💾 Lưu chuyến bay</button>
+              <button class="button button-text" type="button" id="flight-clear">Xoá nội dung</button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <section class="flights-panel" id="panel-fs-inquiry" role="tabpanel" aria-labelledby="tab-fs-inquiry" data-flights-panel="fs-inquiry">
+        <div class="flights-card">
+          <h2 class="flights-card-title">Tra cứu trạng thái chuyến bay</h2>
+          <p class="flights-card-sub">Tìm theo sân bay, hãng, số hiệu hoặc combinator, kèm bộ lọc trạng thái và lịch sử tra cứu.</p>
+          <input class="fl-search-input" id="flight-search" type="search" placeholder="VD: SGN, VN, 408, SGNVN408…">
+          <div class="fl-status-filters" role="group" aria-label="Lọc theo trạng thái">
+            <button class="fl-pill is-active" type="button" data-status="all">Tất cả</button>
+            <button class="fl-pill" type="button" data-status="scheduled">Chưa khởi hành</button>
+            <button class="fl-pill" type="button" data-status="inflight">Đang bay</button>
+            <button class="fl-pill" type="button" data-status="landed">Đã hạ cánh</button>
+          </div>
+        </div>
+        <div id="flight-results" class="flights-results" aria-live="polite"></div>
+        <div class="flights-card">
+          <div class="fl-history-head">
+            <h3 class="flights-card-title">Lịch sử tra cứu</h3>
+            <button class="button button-text" type="button" id="history-clear">Xoá lịch sử</button>
+          </div>
+          <div id="search-history" class="fl-history-chips"></div>
+        </div>
+        <p class="flights-reset"><button class="button button-text" type="button" id="flights-reset">Khôi phục dữ liệu mẫu (chuyến bay + thuật ngữ)</button></p>
+      </section>
+
+      <section class="flights-panel" id="panel-term-input" role="tabpanel" aria-labelledby="tab-term-input" data-flights-panel="term-input">
+        <div class="flights-card">
+          <h2 class="flights-card-title">Soạn thuật ngữ hàng không</h2>
+          <p class="flights-card-sub">Thêm từ viết tắt / thuật ngữ thường gặp trong ngành vào từ điển của bạn.</p>
+          <form class="flights-form" id="term-form" autocomplete="off">
+            <div class="fl-field fl-span-2">
+              <label for="term-name">Thuật ngữ / Viết tắt</label>
+              <input id="term-name" name="term" maxlength="30" placeholder="VD: ETA, Slots, Code Share" required>
+            </div>
+            <div class="fl-field fl-span-2">
+              <label for="term-cat">Danh mục / Ngữ cảnh</label>
+              <select id="term-cat" name="cat">
+                <option>Flight Ops</option>
+                <option>Ground Handling</option>
+                <option>Ticketing</option>
+                <option>Commercial</option>
+                <option>General</option>
+              </select>
+            </div>
+            <div class="fl-field fl-span-4">
+              <label for="term-def">Nghĩa tiếng Việt / Định nghĩa</label>
+              <textarea id="term-def" name="def" rows="3" placeholder="VD: Estimated Time of Arrival — Thời gian dự kiến đến…" required></textarea>
+            </div>
+            <div class="fl-field fl-span-4">
+              <label for="term-note">Ghi chú / Ví dụ <small>(không bắt buộc)</small></label>
+              <textarea id="term-note" name="note" rows="2" placeholder="VD: 'Đang dùng trong báo cáo vận hành chuyến bay…'"></textarea>
+            </div>
+            <div class="fl-actions fl-span-4">
+              <button class="button button-primary" type="submit">📚 Lưu thuật ngữ</button>
+              <button class="button button-text" type="button" id="term-clear">Xoá nội dung</button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <section class="flights-panel" id="panel-term-lookup" role="tabpanel" aria-labelledby="tab-term-lookup" data-flights-panel="term-lookup">
+        <div class="flights-card">
+          <h2 class="flights-card-title">Từ điển thuật ngữ hàng không</h2>
+          <p class="flights-card-sub"><span id="term-count">♻️</span> — gõ để tìm tức thì, lọc theo chữ cái hoặc danh mục.</p>
+          <input class="fl-search-input" id="term-search" type="search" placeholder="Tìm thuật ngữ, nghĩa hoặc ngữ cảnh — VD: ETA, slot, ticketing…">
+          <div class="fl-alpha-bar" id="term-alpha" aria-label="Lọc theo chữ cái đầu"></div>
+          <div class="fl-status-filters" id="term-cats" role="group" aria-label="Lọc theo danh mục"></div>
+        </div>
+        <div id="term-results" class="term-results" aria-live="polite"></div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p><span>₫</span> Sổ Chi Tiêu <small>· Dữ liệu của bạn luôn ở trên thiết bị này.</small></p>
+      <p>Thiết kế để bạn chi tiêu chủ động hơn.</p>
+    </footer>
+  </div>
+  {{ $flightsScript := resources.Get "js/flights.js" | minify | fingerprint }}
+  <script src="{{ $flightsScript.RelPermalink }}" integrity="{{ $flightsScript.Data.Integrity }}" defer></script>
+{{ end }}

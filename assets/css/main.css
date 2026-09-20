@@ -163,7 +163,7 @@ h1 em { color: var(--teal); font-style: italic; }
 .blog-post-foot .btn-icon { margin-right: 8px; }
 
 /* Home: bài blog mới nhất */
-.blog-latest { margin-top: 8px; padding: 34px 0 46px; border-top: 1px solid var(--line); }
+.blog-latest { padding: 32px 0 40px; }
 .blog-latest-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 20px; margin-bottom: 22px; }
 .blog-latest-heading h2 { margin: 0; font-family: var(--serif); font-size: 32px; font-weight: 600; letter-spacing: -.045em; }
 .blog-latest-heading a { display: inline-flex; align-items: center; gap: 6px; color: var(--teal); font-size: 12px; font-weight: 750; text-decoration: none; }

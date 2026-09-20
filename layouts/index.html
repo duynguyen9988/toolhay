@@ -18,6 +18,34 @@
     </header>
 
     <main>
+      <section class="blog-latest" aria-labelledby="blog-latest-title">
+        <div class="blog-latest-heading">
+          <div>
+            <p class="eyebrow"><span></span> BLOG · HÀNG KHÔNG</p>
+            <h2 id="blog-latest-title">Bài viết mới nhất</h2>
+          </div>
+          <a href="{{ "blog/" | relURL }}">Xem toàn bộ Blog <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
+        </div>
+        {{ range first 1 (where site.RegularPages "Section" "blog") }}
+        <a class="blog-latest-card" href="{{ .RelPermalink }}">
+          <div class="blog-latest-row">
+            <div class="blog-latest-main">
+              {{ if .Params.topic }}<span class="blog-latest-tag">{{ .Params.topic }}</span>{{ end }}
+              <h3>{{ .Title }}</h3>
+              <p>{{ .Description }}</p>
+              <div class="blog-latest-meta">
+                <span class="meta-item"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg><time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "02/01/2006" }}</time></span>
+                <span aria-hidden="true">·</span>
+                <span class="meta-item"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg><span>{{ .ReadingTime }} phút đọc</span></span>
+              </div>
+            </div>
+            <span class="blog-latest-arrow" aria-hidden="true"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></span>
+          </div>
+        </a>
+        {{ end }}
+      </section>
+    
+
       <section class="hero" aria-labelledby="hero-title">
         <div class="hero-copy">
           <p class="eyebrow"><span></span> SỔ THU CHI CÁ NHÂN</p>
@@ -180,34 +208,7 @@
           <p class="insights-footnote">Phân tích chạy ngay trên thiết bị này và tự cập nhật mỗi khi bạn xem Dashboard — không gửi dữ liệu đi đâu.</p>
         </article>
       </section>
-
-      <section class="blog-latest" aria-labelledby="blog-latest-title">
-        <div class="blog-latest-heading">
-          <div>
-            <p class="eyebrow"><span></span> BLOG · HÀNG KHÔNG</p>
-            <h2 id="blog-latest-title">Bài viết mới nhất</h2>
-          </div>
-          <a href="{{ "blog/" | relURL }}">Xem toàn bộ Blog <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
-        </div>
-        {{ range first 1 (where site.RegularPages "Section" "blog") }}
-        <a class="blog-latest-card" href="{{ .RelPermalink }}">
-          <div class="blog-latest-row">
-            <div class="blog-latest-main">
-              {{ if .Params.topic }}<span class="blog-latest-tag">{{ .Params.topic }}</span>{{ end }}
-              <h3>{{ .Title }}</h3>
-              <p>{{ .Description }}</p>
-              <div class="blog-latest-meta">
-                <span class="meta-item"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg><time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "02/01/2006" }}</time></span>
-                <span aria-hidden="true">·</span>
-                <span class="meta-item"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg><span>{{ .ReadingTime }} phút đọc</span></span>
-              </div>
-            </div>
-            <span class="blog-latest-arrow" aria-hidden="true"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></span>
-          </div>
-        </a>
-        {{ end }}
-      </section>
-    </main>
+</main>
 
     <footer class="site-footer">
       <p><span>₫</span> Sổ Chi Tiêu <small>· Dữ liệu của bạn luôn ở trên thiết bị này.</small></p>

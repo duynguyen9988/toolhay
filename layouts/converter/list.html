@@ -1,0 +1,76 @@
+{{ define "main" }}
+  <div class="page-shell">
+    {{ partial "site-header.html" . }}
+    <main class="flights-main">
+      <section class="flights-hero" aria-labelledby="converter-title">
+        <p class="eyebrow"><span></span> KẾ TOÁN HÀN QUỐC · CÔNG CỤ</p>
+        <h1 id="converter-title">Chuyển đổi tiền Hàn <em>cho kế toán</em></h1>
+        <p class="hero-description">Nhập số tiền theo bất kỳ định dạng nào — số thuần (<b>168,000,000</b>), trộn chữ–số (<b>1억 6800만</b>) hay đọc Hàn (<b>일억 육천팔백만</b>) — công cụ tự đổi ra cả ba cách biểu diễn cùng lúc kèm phiên âm, để luyện đọc và ghi sổ tiền Hàn.</p>
+      </section>
+
+      <div class="flights-card">
+        <h2 class="flights-card-title">Nhập số tiền</h2>
+        <p class="flights-card-sub">Mọi định dạng gõ vào chung một ô — kết quả cập nhật tức thì khi bạn nhập.</p>
+        <div class="conv-input-row">
+          <input class="fl-search-input conv-input" id="conv-input" type="search" inputmode="text"
+                 placeholder="VD: 168백만 · 1억 6800만 · 2.5억 · 3천500 · 168,000,000 · 일억 육천팔백만원"
+                 autocomplete="off" spellcheck="false" aria-label="Nhập số tiền Hàn Quốc">
+          <button class="button button-text" type="button" id="conv-clear">✕ Xoá</button>
+        </div>
+        <div class="conv-quick" role="group" aria-label="Luyện cộng tiền nhanh">
+          <span class="conv-quick-label">Luyện cộng nhanh:</span>
+          <button class="conv-quick-btn" type="button" data-add="1000000">+100만</button>
+          <button class="conv-quick-btn" type="button" data-add="10000000">+1,000만</button>
+          <button class="conv-quick-btn" type="button" data-add="100000000">+1억</button>
+          <button class="conv-quick-btn" type="button" data-add="1000000000">+10억</button>
+          <button class="conv-quick-btn" type="button" data-add="10000000000">+100억</button>
+        </div>
+      </div>
+
+      <div id="conv-results" class="conv-results" aria-live="polite"></div>
+
+      <details class="conv-cheat" id="conv-cheat">
+        <summary>📖 Góc kế toán Hàn Quốc — bảng tra đơn vị &amp; thuật ngữ</summary>
+        <div class="conv-cheat-body">
+          <h3>Đơn vị đếm cơ bản</h3>
+          <table>
+            <thead>
+              <tr><th>Tiếng Hàn</th><th>Giá trị</th><th>Số chuẩn</th><th>Ví dụ</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>십</td><td>10</td><td>10</td><td>오십 = 50</td></tr>
+              <tr><td>백</td><td>100</td><td>100</td><td>팔백 = 800</td></tr>
+              <tr><td>천</td><td>1,000</td><td>1,000</td><td>육천팔백 = 6,800</td></tr>
+              <tr><td>만</td><td>10,000</td><td>10,000</td><td>육천팔백만 = 68,000,000</td></tr>
+              <tr><td>억</td><td>100,000,000</td><td>1억</td><td>1억 6800만 = 168,000,000</td></tr>
+              <tr><td>조</td><td>1,000,000,000,000</td><td>1,000 tỷ</td><td>2조 5000억 = 2,500,000,000,000</td></tr>
+            </tbody>
+          </table>
+          <h3>Thuật ngữ sổ sách thường gặp</h3>
+          <table>
+            <thead>
+              <tr><th>Tiếng Hàn</th><th>Nghĩa</th><th>Ghi chú</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>원</td><td>KRW — đồng Hàn Quốc</td><td>Đơn vị tiền tệ</td></tr>
+              <tr><td>VAT 포함</td><td>Đã gồm thuế</td><td>부가가치세 (VAT) bao gồm</td></tr>
+              <tr><td>공급가액</td><td>Giá trước thuế</td><td>Giá chưa gồm VAT</td></tr>
+              <tr><td>세금계산서</td><td>Hoá đơn thuế</td><td>Chứng từ kê khai VAT</td></tr>
+              <tr><td>매출</td><td>Doanh thu</td><td>Ghi bên Có (대변)</td></tr>
+              <tr><td>비용</td><td>Chi phí</td><td>Ghi bên Nợ (차변)</td></tr>
+            </tbody>
+          </table>
+          <h3>Mẹo đọc nhanh</h3>
+          <p>Đọc theo cụm 4 số như đếm nghìn: <b>168,000,000</b> → cụm <b>1</b> (억) + <b>6800</b> (만) → <b>일억 육천팔백만</b>. Đơn vị lớn đi trước, đơn vị nhỏ đi sau, không nói "원" khi đọc số trần.</p>
+        </div>
+      </details>
+    </main>
+
+    <footer class="site-footer">
+      <p><span>₫</span> Sổ Chi Tiêu <small>· Dữ liệu của bạn luôn ở trên thiết bị này.</small></p>
+      <p>Thiết kế để bạn chi tiêu chủ động hơn.</p>
+    </footer>
+  </div>
+  {{ $convScript := resources.Get "js/converter.js" | minify | fingerprint }}
+  <script src="{{ $convScript.RelPermalink }}" integrity="{{ $convScript.Data.Integrity }}" defer></script>
+{{ end }}

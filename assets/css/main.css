@@ -467,3 +467,69 @@ h1 em { color: var(--teal); }
   .link-hay-tabs .flights-tab { flex: 1 1 auto; justify-content: center; }
   .link-card--user { padding: 23px 54px 19px 19px; }
 }
+
+/* ============================================================
+   Converter — Chuyển đổi tiền Hàn Quốc (kế toán)
+   ============================================================ */
+
+.conv-input-row { display: flex; gap: 10px; align-items: center; margin-top: 16px; }
+.conv-input-row .fl-search-input { flex: 1; margin: 0; }
+.conv-quick { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 16px; }
+.conv-quick-label { color: var(--muted); font-size: 12px; }
+.conv-quick-btn {
+  padding: 8px 14px; border: 1px solid var(--line); border-radius: 9px;
+  background: #fff; color: var(--sc-dark); font-weight: 650; cursor: pointer;
+  transition: border-color .15s, background .15s, transform .15s, box-shadow .15s;
+}
+.conv-quick-btn:hover { border-color: var(--sc-accent); background: var(--mint); transform: translateY(-1px); box-shadow: 0 4px 10px rgba(15,23,42,.06); }
+
+.conv-results { display: grid; gap: 14px; margin-top: 20px; }
+.conv-result {
+  background: #fff; border: 1px solid var(--line); border-radius: 16px;
+  padding: 20px 22px; box-shadow: 0 1px 2px rgba(15,23,42,.04);
+  animation: flightsFade .25s ease;
+}
+.conv-result-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 10px; }
+.conv-result-head h3 { font-size: 13px; letter-spacing: .04em; text-transform: uppercase; color: var(--muted); }
+.conv-result-head h3 span[lang] { text-transform: none; font-size: 12px; font-weight: 500; }
+.conv-copy {
+  padding: 6px 12px; border: 1px solid var(--line); border-radius: 8px;
+  background: #fff; color: var(--teal); font-size: 12px; font-weight: 650; cursor: pointer;
+  transition: background .15s, border-color .15s, color .15s;
+}
+.conv-copy:hover { background: var(--sc-accent); border-color: var(--sc-accent); color: #fff; }
+.conv-copy.is-done { background: var(--teal); border-color: var(--teal); color: #fff; }
+.conv-big { margin: 0; font-size: 26px; font-weight: 700; color: var(--ink); line-height: 1.4; word-break: break-word; }
+.conv-roman { font-size: 21px; font-weight: 600; }
+.conv-cur { color: var(--teal); font-weight: 700; }
+.conv-k-digits { color: var(--ink); }
+.conv-k-unit { color: var(--sc-accent); font-weight: 800; }
+.conv-hint { margin: 10px 0 0; color: var(--muted); font-size: 12px; }
+.conv-state { border-style: dashed; }
+.conv-state .conv-big { color: var(--muted); font-size: 17px; font-weight: 500; }
+.conv-state .conv-hint b { color: var(--teal); font-weight: 650; }
+
+/* Cheat sheet */
+.conv-cheat { margin-top: 24px; border: 1px solid var(--line); border-radius: 16px; background: #fff; overflow: hidden; }
+.conv-cheat summary { cursor: pointer; padding: 16px 20px; font-weight: 700; color: var(--sc-dark); font-size: 15px; list-style: none; user-select: none; }
+.conv-cheat summary::-webkit-details-marker { display: none; }
+.conv-cheat summary::before { content: '▸ '; color: var(--sc-accent); }
+.conv-cheat[open] summary::before { content: '▾ '; }
+.conv-cheat-body { padding: 0 20px 18px; }
+.conv-cheat-body h3 { font-size: 13px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); margin: 16px 0 8px; }
+.conv-cheat-body table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.conv-cheat-body th, .conv-cheat-body td { padding: 8px 10px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+.conv-cheat-body th { color: var(--muted); font-weight: 600; background: var(--paper); }
+.conv-cheat-body td:first-child { font-weight: 700; color: var(--sc-dark); white-space: nowrap; }
+.conv-cheat-body p { margin: 4px 0 0; color: var(--muted); font-size: 13px; }
+.conv-cheat-body p b { color: var(--teal); font-weight: 650; }
+
+@media (min-width: 900px) {
+  .conv-results { grid-template-columns: 1fr 1fr; }
+  .conv-result:nth-child(4n+3), .conv-result:nth-child(4n+4) { margin-bottom: 0; }
+}
+@media (max-width: 560px) {
+  .conv-result { padding: 16px; }
+  .conv-big { font-size: 21px; }
+  .conv-roman { font-size: 17px; }
+}

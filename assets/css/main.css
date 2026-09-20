@@ -236,24 +236,78 @@ h1 em { color: var(--teal); font-style: italic; }
 @media (max-width: 480px) { .blog-card { padding: 22px 19px 20px; }.blog-card h2 { font-size: 21px; }.blog-post-content { font-size: 15px; line-height: 1.78; }.blog-post-content h2 { font-size: 24px; }.blog-post-foot { align-items: flex-start; flex-direction: column; gap: 15px; }.delete-by-id-row { flex-direction: column; gap: 8px; }.delete-by-id-button { width: 100%; } }
 
 /* ============================================================
-   Trang Blog — bảng màu Sembcorp DNA (chỉ áp dụng cho trang blog)
-   Nguồn: https://media.sembcorp.com/data/cms/ar/ar2025/ + logo Sembcorp
-   Teal đậm #206A6D · Teal sáng #5abeba · Amber #eba75a · Xanh lá #007853
-   Font giữ nguyên hệ thống hiện tại (chỉ đổi màu).
+   Trang Blog — hệ màu Sembcorp DNA (chỉ áp dụng cho trang blog)
+   Primary #00875A · Dark #003B46 · Accent #70C14A · BG #F0F4F2
+   Card #FFFFFF · Ink #1E293B · Muted #64748B · Border #E2E8F0
+   Font giữ nguyên 100% hệ thống hiện tại (chỉ đổi màu sắc).
    ============================================================ */
 body.blog-page {
-  --teal: #206A6D;
-  --teal-dark: #17595b;
-  --mint: #e9f4f3;
-  --gold: #eba75a;
+  /* Biến màu Sembcorp DNA */
+  --sc-primary: #00875A;
+  --sc-primary-dark: #006B47;
+  --sc-dark: #003B46;
+  --sc-accent: #70C14A;
+  --sc-bg: #F0F4F2;
+  --sc-card: #FFFFFF;
+  --sc-ink: #1E293B;
+  --sc-muted: #64748B;
+  --sc-border: #E2E8F0;
+  /* Sơ đồ hóa vào các biến CSS đang dùng */
+  --ink: var(--sc-ink);
+  --muted: var(--sc-muted);
+  --line: var(--sc-border);
+  --paper: var(--sc-bg);
+  --cream: var(--sc-bg);
+  --teal: var(--sc-primary);
+  --teal-dark: var(--sc-primary-dark);
+  --mint: #E8F6EA;
+  --gold: var(--sc-accent);
 }
-body.blog-page .blog-card:hover { border-color: #7ec4bd; box-shadow: 0 14px 38px rgba(32,106,109,.13); }
-body.blog-page .eyebrow span { box-shadow: 0 0 0 4px rgba(235,167,90,.18); }
-body.blog-page .blog-card-tag { border-color: #f0dcb6; color: #8a5a1c; background: #fcf4e5; transition: background .2s; }
-body.blog-page .blog-card:hover .blog-card-tag { background: #f0dcb6; }
-body.blog-page .blog-post-meta .meta-dot { color: #b3c4c0; }
-body.blog-page .blog-post-content a { text-decoration-color: #afd8d2; }
-body.blog-page .blog-post-content th { color: #206A6D; background: #DAF0EF; }
-body.blog-page .blog-post-content code { color: var(--teal-dark); }
-body.blog-page .blog-post-content pre { background: #0d2a2c; }
-body.blog-page .button-primary { box-shadow: 0 8px 18px rgba(32,106,109,.2); }
+
+/* Header & Footer — nền tối #003B46, chữ trắng */
+body.blog-page .site-header { background: var(--sc-dark); border-bottom: 1px solid rgba(255,255,255,.08); }
+body.blog-page .site-header .brand { color: #FFFFFF; }
+body.blog-page .site-header .brand small { color: rgba(255,255,255,.62); }
+body.blog-page .site-header .brand-mark { background: var(--sc-accent); color: var(--sc-dark); }
+body.blog-page .nav-link { color: rgba(255,255,255,.78); }
+body.blog-page .nav-link:hover, body.blog-page .nav-link.is-active { color: #FFFFFF; }
+body.blog-page .nav-link:after { background: var(--sc-accent); }
+body.blog-page .site-footer { background: var(--sc-dark); border-top: 0; color: rgba(255,255,255,.6); }
+body.blog-page .site-footer p { color: rgba(255,255,255,.85); }
+body.blog-page .site-footer p:first-child span { background: var(--sc-accent); color: var(--sc-dark); }
+body.blog-page .site-footer small { color: rgba(255,255,255,.6); }
+
+/* Nút bấm — màu chủ đạo #00875A, hover mượt */
+body.blog-page .button-primary { background: var(--sc-primary); box-shadow: 0 8px 18px rgba(0,135,90,.22); transition: background .2s, transform .2s, box-shadow .2s; }
+body.blog-page .button-primary:hover { background: var(--sc-primary-dark); transform: translateY(-2px); }
+
+/* Nền trang #F0F4F2 (qua --paper) & Card trắng #FFFFFF */
+body.blog-page .blog-card { background: var(--sc-card); border-color: var(--sc-border); }
+body.blog-page .blog-card:hover { border-color: var(--sc-accent); box-shadow: 0 14px 38px rgba(0,135,90,.12); }
+body.blog-page .blog-card h2 { color: var(--sc-ink); }
+body.blog-page .blog-card:hover h2 { color: var(--sc-primary); }
+body.blog-page .blog-card > p { color: var(--sc-muted); }
+body.blog-page .blog-card-meta { color: var(--sc-muted); }
+body.blog-page .blog-card-more { color: var(--sc-primary); }
+
+/* Tag / Category badge — accent #70C14A nền nhạt */
+body.blog-page .blog-card-tag { border-color: #BCE2A0; color: #0E6B3E; background: #EDF8E4; transition: background .2s; }
+body.blog-page .blog-card:hover .blog-card-tag { background: #DCF0CB; }
+
+/* Hero, eyebrow & nội dung bài viết */
+body.blog-page .eyebrow { color: var(--sc-primary); }
+body.blog-page .eyebrow span { background: var(--sc-accent); box-shadow: 0 0 0 4px rgba(112,193,74,.18); }
+body.blog-page .blog-hero h1 em { color: var(--sc-primary); }
+body.blog-page .blog-hero .hero-description { color: var(--sc-muted); }
+body.blog-page .blog-post-meta { color: var(--sc-muted); }
+body.blog-page .blog-post-meta .meta-dot { color: #C6D2CC; }
+body.blog-page .blog-post-meta time { color: #334155; }
+body.blog-page .blog-post-desc { color: var(--sc-muted); }
+body.blog-page .blog-post-content { color: #334155; }
+body.blog-page .blog-post-content a { text-decoration-color: #A9DCC0; }
+body.blog-page .blog-post-content li::marker { color: var(--sc-primary); }
+body.blog-page .blog-post-content blockquote { border-left-color: var(--sc-accent); }
+body.blog-page .blog-post-content th { color: #0B6B40; background: #EDF8E4; }
+body.blog-page .blog-post-content code { color: var(--sc-primary-dark); }
+body.blog-page .blog-post-content pre { background: #0D2A24; }
+body.blog-page .blog-post-foot p strong { color: var(--sc-primary); }

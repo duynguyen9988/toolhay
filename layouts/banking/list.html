@@ -1,0 +1,129 @@
+{{ define "main" }}
+  <div class="page-shell">
+    {{ partial "site-header.html" . }}
+    <main class="flights-main">
+      <section class="flights-hero" aria-labelledby="banking-title">
+        <p class="eyebrow"><span></span> NGÂN HÀNG · QUẢN LÝ ƯU ĐÃI THẺ</p>
+        <h1 id="banking-title">Ưu đãi thẻ <em>của bạn</em></h1>
+        <p class="hero-description">Trung tâm khuyến mãi thẻ tín dụng &amp; thẻ ghi nợ: nhập thông tin ưu đãi khi ngân hàng ra chương trình mới, tra cứu lại theo ngân hàng, lĩnh vực, dạng thẻ hay mã MCC — chỉ cần một nơi nhớ. Toàn bộ dữ liệu được lưu ngay trên thiết bị của bạn — riêng tư, không cần tài khoản.</p>
+      </section>
+
+      <div class="flights-tabs" role="tablist" aria-label="Hai công cụ ưu đãi thẻ">
+        <button class="flights-tab is-active" id="tab-promo-input" type="button" role="tab" aria-selected="true" aria-controls="panel-promo-input" data-banking-tab="promo-input">
+          <span class="flights-tab-ico" aria-hidden="true">➕</span> Nhập Promo Mới
+        </button>
+        <button class="flights-tab" id="tab-promo-inquiry" type="button" role="tab" aria-selected="false" aria-controls="panel-promo-inquiry" data-banking-tab="promo-inquiry">
+          <span class="flights-tab-ico" aria-hidden="true">🔍</span> Tra Cứu Khuyến Mãi
+        </button>
+      </div>
+
+      <section class="flights-panel is-active" id="panel-promo-input" role="tabpanel" aria-labelledby="tab-promo-input" data-banking-panel="promo-input">
+        <div class="flights-card">
+          <h2 class="flights-card-title" id="promo-form-title">Nhập thông tin khuyến mãi thẻ</h2>
+          <p class="flights-card-sub">Các trường đánh dấu <b>*</b> là bắt buộc. Tên ngân hàng gõ tự do — hệ thống gợi ý nhanh từ danh sách phổ biến.</p>
+          <form class="flights-form" id="promo-form" autocomplete="off" novalidate>
+            <div class="fl-field fl-span-2">
+              <label for="promo-bank">Tên ngân hàng <b>*</b></label>
+              <input id="promo-bank" name="bank" list="promo-bank-list" maxlength="40" placeholder="VD: HSBC, Shinhan, VIB, VPBank…" required>
+              <datalist id="promo-bank-list"></datalist>
+            </div>
+            <div class="fl-field">
+              <label for="promo-card-type">Loại thẻ</label>
+              <select id="promo-card-type" name="cardType">
+                <option>Credit</option>
+                <option>Debit</option>
+              </select>
+            </div>
+            <div class="fl-field">
+              <label for="promo-card-tier">Dạng thẻ <b>*</b></label>
+              <select id="promo-card-tier" name="cardTier">
+                <option value="">— Chọn —</option>
+                <option>Signature</option>
+                <option>Platinum</option>
+                <option>World</option>
+                <option>Travel Elite</option>
+                <option>Premier</option>
+                <option>Gold</option>
+                <option>Silver</option>
+              </select>
+            </div>
+            <div class="fl-field">
+              <label for="promo-discount">Ưu đãi / Hoàn tiền <b>*</b></label>
+              <input id="promo-discount" name="discount" maxlength="60" placeholder="VD: Giảm 10%, Hoàn 500k" required>
+            </div>
+            <div class="fl-field">
+              <label for="promo-category">Lĩnh vực áp dụng <b>*</b></label>
+              <select id="promo-category" name="category">
+                <option value="">— Chọn —</option>
+                <option>Du lịch</option>
+                <option>Bảo hiểm</option>
+                <option>Giáo dục</option>
+                <option>Âm thực</option>
+                <option>Mua sắm</option>
+                <option>Vé máy bay</option>
+                <option>Y tế</option>
+                <option>Xăng dầu &amp; di chuyển</option>
+              </select>
+            </div>
+            <div class="fl-field">
+              <label for="promo-mcc">Mã MCC <small>(không bắt buộc)</small></label>
+              <input id="promo-mcc" name="mcc" inputmode="numeric" maxlength="4" placeholder="4722">
+            </div>
+            <div class="fl-field fl-span-2">
+              <label for="promo-brands">Thương hiệu áp dụng <small>(phân cách bằng dấu phẩy)</small></label>
+              <input id="promo-brands" name="brands" maxlength="120" placeholder="VD: Agoda, Traveloka, Shopee, Starbucks">
+            </div>
+            <div class="fl-field fl-span-2">
+              <label for="promo-channel">Kênh áp dụng</label>
+              <select id="promo-channel" name="channel">
+                <option>Online</option>
+                <option>Offline / Tại quầy</option>
+                <option>Cả Online &amp; Offline</option>
+              </select>
+            </div>
+            <div class="fl-field">
+              <label for="promo-start">Bắt đầu hiệu lực <b>*</b></label>
+              <input id="promo-start" name="start" type="date" required>
+            </div>
+            <div class="fl-field">
+              <label for="promo-end">Kết thúc hiệu lực <b>*</b></label>
+              <input id="promo-end" name="end" type="date" required>
+            </div>
+            <div class="fl-field fl-span-4">
+              <label for="promo-note">Ghi chú / Điều kiện <small>(không bắt buộc)</small></label>
+              <textarea id="promo-note" name="notes" rows="2" maxlength="200" placeholder="VD: Chi tiêu tối thiểu 2 triệu, hoàn tối đa 300.000đ/tháng, mã ưu đãi AGO10…"></textarea>
+            </div>
+            <div class="fl-actions fl-span-4">
+              <button class="button button-primary" type="submit"><span id="promo-submit-label">💾 Lưu Khuyến Mãi</span></button>
+              <button class="button button-text" type="button" id="promo-cancel-edit" hidden>✕ Huỷ chỉnh sửa</button>
+              <button class="button button-text" type="button" id="promo-clear">Xoá nội dung</button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <section class="flights-panel" id="panel-promo-inquiry" role="tabpanel" aria-labelledby="tab-promo-inquiry" data-banking-panel="promo-inquiry">
+        <div class="flights-card">
+          <h2 class="flights-card-title">Tra cứu khuyến mãi thẻ</h2>
+          <p class="flights-card-sub"><span id="promo-count">🎯 0 khuyến mãi</span> — tìm tức thì theo ngân hàng, thương hiệu, mã MCC hoặc từ khoá; kết hợp lọc theo lĩnh vực, dạng thẻ và trạng thái hiệu lực.</p>
+          <input class="fl-search-input" id="promo-search" type="search" placeholder="Tìm ngân hàng, thương hiệu, MCC, ghi chú… — VD: Agoda, 4722, HSBC, hoàn 500k">
+          <div class="bk-filters" role="group" aria-label="Bộ lọc khuyến mãi">
+            <select id="f-bank" class="bk-select"><option value="all">🏦 Tất cả ngân hàng</option></select>
+            <select id="f-cat" class="bk-select"><option value="all">🗂️ Tất cả lĩnh vực</option></select>
+            <select id="f-tier" class="bk-select"><option value="all">💳 Tất cả dạng thẻ</option></select>
+            <label class="bk-toggle"><input type="checkbox" id="f-active"><span>✅ Chỉ hiện khuyến mãi còn hiệu lực</span></label>
+          </div>
+        </div>
+        <div id="promo-results" class="flights-results" aria-live="polite"></div>
+        <p class="flights-reset"><button class="button button-text" type="button" id="banking-reset">Khôi phục dữ liệu mẫu (2 khuyến mãi)</button></p>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <p><span>₫</span> Sổ Chi Tiêu <small>· Dữ liệu của bạn luôn ở trên thiết bị này.</small></p>
+      <p>Thiết kế để bạn chi tiêu chủ động hơn.</p>
+    </footer>
+  </div>
+  {{ $bankingScript := resources.Get "js/banking.js" | minify | fingerprint }}
+  <script src="{{ $bankingScript.RelPermalink }}" integrity="{{ $bankingScript.Data.Integrity }}" defer></script>
+{{ end }}

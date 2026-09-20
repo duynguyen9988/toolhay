@@ -572,3 +572,54 @@ h1 em { color: var(--teal); }
   .conv-big { font-size: 21px; }
   .conv-roman { font-size: 17px; }
 }
+/* ============================================================
+   Banking — Quản lý khuyến mãi thẻ (input + tra cứu)
+   ============================================================ */
+
+/* Bộ lọc tra cứu */
+.bk-filters { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)) auto; gap: 10px; margin-top: 16px; align-items: center; }
+.bk-select { padding: 10px 12px; border: 1px solid #CBD5E1; border-radius: 8px; color: var(--ink); background: #fff; font-family: inherit; font-size: 13px; font-weight: 500; outline: none; transition: border-color .2s, box-shadow .2s; min-width: 0; }
+.bk-select:focus { border-color: var(--teal); box-shadow: 0 0 0 3px rgba(0,135,90,.12); }
+.bk-toggle { display: inline-flex; align-items: center; gap: 8px; padding: 9px 13px; border: 1px solid var(--line); border-radius: 999px; background: #fff; color: var(--sc-dark); font-size: 12px; font-weight: 650; cursor: pointer; white-space: nowrap; }
+.bk-toggle input { width: 15px; height: 15px; margin: 0; accent-color: var(--sc-primary); cursor: pointer; }
+.fl-field input.is-invalid, .fl-field select.is-invalid { border-color: var(--coral); box-shadow: 0 0 0 3px rgba(220,38,38,.12); }
+
+/* Thẻ khuyến mãi */
+.bk-card { padding: 20px 22px 16px; border: 1px solid var(--line); border-radius: 14px; background: #fff; box-shadow: 0 1px 2px rgba(15,23,42,.04); transition: border-color .2s, opacity .2s; }
+.bk-card--expired { opacity: .7; background: #FBFCFE; }
+.bk-card-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 12px; }
+.bk-id { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.bk-bank { padding: 4px 12px; border-radius: 999px; background: #003b46; color: #fff; font-size: 11.5px; font-weight: 700; letter-spacing: .02em; }
+.bk-tier { padding: 4px 10px; border: 1px solid #BCE2A0; border-radius: 999px; color: #0E6B3E; background: #EDF8E4; font-size: 10.5px; font-weight: 700; }
+.bk-status { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 700; white-space: nowrap; }
+.bk-status i { width: 9px; height: 9px; border-radius: 50%; }
+.bk-status--active { color: #0E6B3E; }
+.bk-status--active i { background: #22C55E; box-shadow: 0 0 0 3px rgba(34,197,94,.18); }
+.bk-status--expired { color: var(--muted); }
+.bk-status--expired i { background: #94A3B8; }
+
+.bk-discount { display: inline-block; margin: 0 0 10px; padding: 7px 15px; border-radius: 10px; background: #00a389; color: #fff; font-family: var(--serif); font-size: 25px; font-weight: 700; letter-spacing: -.02em; box-shadow: 0 8px 18px rgba(0,163,137,.24); }
+.bk-meta { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 9px; }
+.bk-chip { padding: 4px 10px; border: 1px solid var(--line); border-radius: 999px; color: var(--muted); background: #F8FAFC; font-size: 10.5px; font-weight: 650; }
+.bk-chip--cat { color: #0E6B3E; border-color: #BCE2A0; background: #EDF8E4; }
+.bk-chip--ch { color: var(--teal-dark); border-color: #BCE2A0; background: var(--mint); }
+.bk-chip--days { color: #fff; border-color: #00a389; background: #00a389; }
+.bk-brands { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 10px; }
+.bk-brand { padding: 5px 11px; border: 1px solid #E2D9C8; border-radius: 9px; color: #7C5A2E; background: #FBF6EC; font-size: 11.5px; font-weight: 700; }
+.bk-validity { color: var(--muted); font-size: 11.5px; font-weight: 650; }
+.bk-notes { margin: 8px 0 0; color: #475569; font-size: 12px; line-height: 1.6; }
+.bk-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 13px; padding-top: 12px; border-top: 1px dashed var(--line); }
+.bk-act { padding: 6px 12px; border: 1px solid var(--line); border-radius: 8px; background: #fff; color: var(--sc-dark); font-family: inherit; font-size: 11.5px; font-weight: 700; cursor: pointer; transition: border-color .15s, background .15s, color .15s; }
+.bk-act:hover { border-color: var(--teal); background: var(--mint); color: var(--teal-dark); }
+.bk-act--del:hover { border-color: var(--coral); background: var(--coral-soft); color: var(--coral); }
+
+/* Responsive */
+@media (max-width: 800px) {
+  .bk-filters { grid-template-columns: 1fr 1fr; }
+  .bk-toggle { justify-self: start; }
+}
+@media (max-width: 480px) {
+  .bk-filters { grid-template-columns: 1fr; }
+  .bk-discount { font-size: 21px; }
+  .bk-card { padding: 17px 16px 13px; }
+}

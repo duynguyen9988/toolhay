@@ -86,6 +86,11 @@
           <a class="detail-logger-link" href="{{ "tools/transaction-tracker/" | relURL }}">📝 Nhập chi tiết món hàng <span>→</span></a>
         </div>
 
+        <div class="edit-banner" id="edit-banner" hidden>
+          <span id="edit-banner-label"></span>
+          <button type="button" class="edit-cancel" id="edit-cancel" hidden>Hủy sửa</button>
+        </div>
+
         <div class="input-layout detailed-input-layout">
           <form class="detailed-transaction-form home-detailed-form" id="transaction-form" novalidate>
             <section class="logger-section logger-transaction">
@@ -123,7 +128,7 @@
             <section class="logger-footer">
               <label class="logger-field"><span>Ghi chú <em>(không bắt buộc)</em></span><textarea id="note" name="note" rows="3" maxlength="300" placeholder="Ví dụ: Mua sắm cá nhân, đổi trả trong 30 ngày…"></textarea></label>
               <p class="form-error logger-error" id="form-error" role="alert" hidden></p>
-              <div class="logger-actions"><button class="logger-submit" type="submit"><span>＋</span> Thêm giao dịch</button><button class="logger-reset" type="reset">Nhập lại</button></div>
+              <div class="logger-actions"><button class="logger-submit" type="submit" id="submit-transaction"><span>＋</span> Thêm giao dịch</button><button class="logger-reset" type="reset">Nhập lại</button></div>
             </section>
           </form>
         </div>
@@ -178,8 +183,8 @@
           <div class="block-heading"><div><h3>Chi tiết giao dịch</h3><p data-dashboard-history-note>0 giao dịch trong khoảng đã chọn</p></div><button class="text-button" type="button" id="export-csv">Xuất CSV</button></div>
           <div class="table-wrap">
             <table>
-              <thead><tr><th>Ngày</th><th>Danh mục</th><th>Ghi chú</th><th>Loại</th><th>ContentID</th><th>Số tiền</th></tr></thead>
-              <tbody id="dashboard-history"><tr class="table-empty"><td colspan="6">Chưa có dữ liệu cho tháng này.</td></tr></tbody>
+              <thead><tr><th>Ngày</th><th>Danh mục</th><th>Ghi chú</th><th>Loại</th><th>ContentID</th><th>Số tiền</th><th>Sửa</th></tr></thead>
+              <tbody id="dashboard-history"><tr class="table-empty"><td colspan="7">Chưa có dữ liệu cho tháng này.</td></tr></tbody>
             </table>
           </div>
         <div class="delete-by-id">

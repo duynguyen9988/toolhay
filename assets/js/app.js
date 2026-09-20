@@ -26,6 +26,13 @@
   const taxAmountInput = $('#display-tax-amount');
   const errorElement = $('#form-error');
   let transactions = loadTransactions();
+  let editingId = null;
+  let editBannerTimer = null;
+  const inputTitle = $('#input-title');
+  const submitButton = $('#submit-transaction');
+  const editBanner = $('#edit-banner');
+  const editBannerLabel = $('#edit-banner-label');
+  const editCancel = $('#edit-cancel');
 
   dateInput.value = localDateString(today);
   monthInput.value = localMonthString(today);
@@ -110,6 +117,7 @@
         <span class="transaction-note">${escapeHTML(note)}</span>
         <span class="transaction-type ${item.type}">${typeLabel}</span>
         <span class="transaction-money ${item.type}">${sign}${formatMoney(item.amount)}</span>
+        <button class="edit-transaction" type="button" aria-label="Sửa giao dịch ${escapeHTML(item.category)}" title="Sửa giao dịch">✎</button>
         <button class="delete-transaction" type="button" aria-label="Xóa giao dịch ${escapeHTML(item.category)}" title="Xóa giao dịch">×</button>
       </article>`;
     }).join('');
@@ -165,7 +173,7 @@
   function renderHistory(items) {
     const body = $('#dashboard-history');
     $('[data-dashboard-history-note]').textContent = `${number.format(items.length)} giao dịch trong khoảng đã chọn`;
-    if (!items.length) { body.innerHTML = '<tr class="table-empty"><td colspan="6">Chưa có dữ liệu cho tháng này.</td></tr>'; return; }
+    if (!items.length) { body.innerHTML = '<tr class="table-empty"><td colspan="7">Chưa có dữ liệu cho tháng này.</td></tr>'; return; }
     body.innerHTML = items.map(item => {
       const sign = item.type === 'income' ? '+' : '−';
       const className = item.type === 'income' ? 'table-income' : 'table-expense';
@@ -177,6 +185,7 @@
         <td class="table-type">${item.type === 'income' ? 'Thu nhập' : 'Chi tiêu'}</td>
         <td class="table-id"><code title="${escapeHTML(item.id)}">${escapeHTML(item.id)}</code><button class="copy-id" type="button" data-copy-id="${escapeHTML(item.id)}" aria-label="Sao chép ContentID"><span aria-hidden="true">⧉</span></button></td>
         <td class="${className}">${sign}${formatMoney(item.amount)}</td>
+        <td><button class="edit-row" type="button" data-edit-id="${escapeHTML(item.id)}" aria-label="Sửa giao dịch" title="Sửa giao dịch">✎</button></td>
       </tr>`;
     }).join('');
   }
@@ -343,6 +352,76 @@
       : (topCategory ? `Nhận xét AI: <strong>${escapeHTML(topCategory.label)}</strong> là danh mục bạn dành nhiều tiền nhất tháng này.` : '');
   }
 
+  /* ---- Sửa giao dịch đã nhập ---- */
+  function fillFormForEdit(item) {
+    dateInput.value = item.date || localDateString(today);
+    const payment = $('#payment-method');
+    if (item.paymentMethod && ![...payment.options].some(option => option.value === item.paymentMethod)) {
+      const option = document.createElement('option');
+      option.value = item.paymentMethod;
+      option.textContent = item.paymentMethod;
+      payment.appendChild(option);
+    }
+    payment.value = item.paymentMethod || payment.options[0].value;
+    $('#merchant').value = item.merchant || '';
+    const category = $('#category');
+    if (item.category && ![...category.options].some(option => option.value === item.category)) {
+      const option = document.createElement('option');
+      option.value = item.category;
+      option.textContent = `${categoryIcons[item.category] || '•'} ${item.category}`;
+      category.appendChild(option);
+    }
+    category.value = item.category || 'Khác';
+    $('#item-name').value = item.itemName || '';
+    $('#product-code').value = item.productCode || '';
+    $('#item-size').value = item.size || '';
+    $('#item-color').value = item.color || '';
+    const rate = item.taxRate == null ? 0 : Number(item.taxRate);
+    const rateValue = String(rate);
+    if (![...taxRateInput.options].some(option => option.value === rateValue)) {
+      const option = document.createElement('option');
+      option.value = rateValue;
+      option.textContent = `${Math.round(rate * 100)}%`;
+      taxRateInput.appendChild(option);
+    }
+    taxRateInput.value = rateValue;
+    amountInput.value = item.amount ? number.format(item.amount) : '';
+    $('#note').value = item.note || '';
+    calculateTaxFields();
+  }
+  function startEdit(id) {
+    const item = transactions.find(t => t.id === id);
+    if (!item) return;
+    window.clearTimeout(editBannerTimer);
+    editingId = id;
+    fillFormForEdit(item);
+    setView('input');
+    editBanner.dataset.state = '';
+    editBannerLabel.innerHTML = `✎ Đang sửa giao dịch: <strong>${escapeHTML(item.itemName || item.category)}</strong>`;
+    editCancel.hidden = false;
+    editBanner.hidden = false;
+    inputTitle.textContent = 'Sửa giao dịch';
+    submitButton.innerHTML = '<span>✎</span> Cập nhật giao dịch';
+    document.getElementById('input').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    $('#item-name').focus();
+  }
+  function clearEditMode() {
+    window.clearTimeout(editBannerTimer);
+    editingId = null;
+    editBanner.hidden = true;
+    editCancel.hidden = true;
+    inputTitle.textContent = 'Thêm một giao dịch';
+    submitButton.innerHTML = '<span>＋</span> Thêm giao dịch';
+  }
+  function flashBanner(html) {
+    editBanner.dataset.state = 'ok';
+    editBannerLabel.innerHTML = `✓ ${html}`;
+    editCancel.hidden = true;
+    editBanner.hidden = false;
+    window.clearTimeout(editBannerTimer);
+    editBannerTimer = window.setTimeout(() => { editBanner.hidden = true; editBanner.dataset.state = ''; }, 3000);
+  }
+
   function addTransaction(event) {
     event.preventDefault(); clearError();
     const rawAmount = amountInput.value.replace(/\D/g, '');
@@ -354,6 +433,29 @@
     if (!itemName) { showError('Hãy nhập tên món hàng.'); $('#item-name').focus(); return; }
     const taxRate = parseFloat(taxRateInput.value) || 0;
     const amountBeforeTax = Math.round(amount / (1 + taxRate));
+    if (editingId) {
+      const index = transactions.findIndex(item => item.id === editingId);
+      if (index === -1) { clearEditMode(); showError('Không tìm thấy giao dịch đang sửa.'); return; }
+      const prior = transactions[index];
+      transactions[index] = {
+        ...prior,
+        type: prior.type || 'expense',
+        amount, category: $('#category').value, date,
+        paymentMethod: $('#payment-method').value, merchant: $('#merchant').value.trim(), itemName,
+        productCode: $('#product-code').value.trim(), size: $('#item-size').value.trim(), color: $('#item-color').value.trim(),
+        taxRate, amountBeforeTax, taxAmount: amount - amountBeforeTax, note: $('#note').value.trim()
+      };
+      saveTransactions();
+      clearEditMode();
+      form.reset();
+      dateInput.value = localDateString(today);
+      taxRateInput.value = '0.08';
+      amountInput.value = '';
+      calculateTaxFields();
+      renderAll();
+      flashBanner(`Đã cập nhật giao dịch "<strong>${escapeHTML(itemName)}</strong>"`);
+      return;
+    }
     transactions.unshift({
       id: `${Date.now()}-${Math.random().toString(16).slice(2)}`,
       type: 'expense', amount, category: $('#category').value,
@@ -382,6 +484,11 @@
   function clearAll() {
     if (!transactions.length || !window.confirm('Xóa toàn bộ giao dịch đã lưu trên thiết bị này?')) return;
     transactions = []; saveTransactions(); renderAll();
+  }
+  function handleListActions(event) {
+    const editButton = event.target.closest('.edit-transaction');
+    if (editButton) { startEdit(editButton.closest('[data-id]').dataset.id); return; }
+    deleteTransaction(event);
   }
   function exportCSV() {
     const items = sorted(getMonthTransactions());
@@ -415,15 +522,20 @@
   }));
   $$('[data-scroll-to]').forEach(button => button.addEventListener('click', () => { setView(button.dataset.scrollTo); document.getElementById(button.dataset.scrollTo).scrollIntoView({ behavior: 'smooth', block: 'start' }); }));
   form.addEventListener('submit', addTransaction);
-  form.addEventListener('reset', () => setTimeout(() => { clearError(); dateInput.value = localDateString(today); taxRateInput.value = '0.08'; calculateTaxFields(); }, 0));
+  form.addEventListener('reset', () => setTimeout(() => { clearError(); clearEditMode(); dateInput.value = localDateString(today); taxRateInput.value = '0.08'; calculateTaxFields(); }, 0));
   amountInput.addEventListener('input', formatAmountWhileTyping);
   taxRateInput.addEventListener('change', calculateTaxFields);
-  $('#transaction-list').addEventListener('click', deleteTransaction);
+  $('#transaction-list').addEventListener('click', handleListActions);
+  editCancel.addEventListener('click', () => { clearEditMode(); form.reset(); clearError(); $('#item-name').focus(); });
   $('#clear-all').addEventListener('click', clearAll);
   $('#export-csv').addEventListener('click', exportCSV);
   monthInput.addEventListener('input', renderAll);
   $('#delete-by-id-form').addEventListener('submit', deleteById);
-  $('#dashboard-history').addEventListener('click', copyId);
+  $('#dashboard-history').addEventListener('click', event => {
+    if (event.target.closest('.copy-id')) { copyId(event); return; }
+    const editButton = event.target.closest('.edit-row');
+    if (editButton) startEdit(editButton.dataset.editId);
+  });
   $('#refresh-insights').addEventListener('click', renderInsights);
   calculateTaxFields();
   if (location.hash === '#dashboard') setView('dashboard');

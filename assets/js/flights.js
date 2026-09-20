@@ -47,14 +47,14 @@
   /* ---------------- Dữ liệu mẫu ---------------- */
   function seedFlights() {
     var today = toISODate(new Date());
-    var mk = function (dept, airline, flight, terminal, deptTime, arr, arrTime) {
-      return { id: genId('fl'), date: today, dept: dept, airline: airline, flight: flight, terminal: terminal, deptTime: deptTime, arr: arr, arrTime: arrTime };
+    var mk = function (dept, airline, flight, terminal, deptTime, arr, arrTime, gate) {
+      return { id: genId('fl'), date: today, dept: dept, airline: airline, flight: flight, terminal: terminal, gate: gate || '', deptTime: deptTime, arr: arr, arrTime: arrTime };
     };
     return [
-      mk('SGN', 'VN', '408', '1', '06:40', 'ICN', '13:10'),
-      mk('ICN', 'KE', '467', '2', '09:20', 'SGN', '14:35'),
-      mk('SGN', 'VJ', '182', '1', '11:10', 'DAD', '12:35'),
-      mk('HAN', 'QH', '104', '2', '15:40', 'SGN', '17:35')
+      mk('SGN', 'VN', '408', '1', '06:40', 'ICN', '13:10', '3'),
+      mk('ICN', 'KE', '467', '2', '09:20', 'SGN', '14:35', '28'),
+      mk('SGN', 'VJ', '182', '1', '11:10', 'DAD', '12:35', '4'),
+      mk('HAN', 'QH', '104', '2', '15:40', 'SGN', '17:35', '7')
     ];
   }
 
@@ -255,6 +255,36 @@
 
   var STATUS_LABELS = { scheduled: 'Chưa khởi hành', inflight: 'Đang bay', landed: 'Đã hạ cánh' };
 
+  /* ---------------- Panel 2: Thông báo khởi hành ---------------- */
+  function nextBoarding() {
+    var today = toISODate(new Date());
+    var now = new Date().getHours() * 60 + new Date().getMinutes();
+    var cand = flights.filter(function (f) {
+      if (f.date !== today) return false;
+      var dm = parseHHMM(f.deptTime);
+      return dm != null && flightStatus(f).key !== 'landed' && dm > now;
+    });
+    if (!cand.length) return null;
+    cand.sort(function (a, b) { return parseHHMM(a.deptTime) - parseHHMM(b.deptTime); });
+    return cand[0];
+  }
+
+  function renderAnnouncement() {
+    var txt = $('#fl-announce-text');
+    if (!txt) return;
+    var next = nextBoarding();
+    if (!next) {
+      txt.textContent = 'Hiện chưa có chuyến bay nào sắp khởi hành. Thêm chuyến bay ở mục Nhập liệu để nhận thông báo tại đây.';
+      return;
+    }
+    var spots = [];
+    if (next.gate && next.terminal) spots.push('cửa số ' + next.gate + ', nhà ga ' + next.terminal);
+    else if (next.gate) spots.push('cửa số ' + next.gate);
+    else if (next.terminal) spots.push('nhà ga ' + next.terminal);
+    var where = spots.length ? ' — ra máy bay tại ' + spots.join(', ') + '.' : '.';
+    txt.textContent = 'Chuyến bay ' + combinatorOf(next) + ' sắp khởi hành lúc ' + next.deptTime + where + ' Mời quý khách chuẩn bị ra máy bay.';
+  }
+
   /* ---------------- Toast ---------------- */
   var toastEl = null;
   function showToast(msg) {
@@ -284,10 +314,10 @@
     }
   }
 
-  var UPPER_FIELDS = ['fl-dept', 'fl-airline', 'fl-arr'];
+  var UPPER_FIELDS = ['fl-dept', 'fl-airline', 'fl-arr', 'fl-gate'];
 
   function clearFlightForm() {
-    ['fl-dept', 'fl-airline', 'fl-flight', 'fl-terminal', 'fl-dept-time', 'fl-arr', 'fl-arr-time'].forEach(function (id) {
+    ['fl-dept', 'fl-airline', 'fl-flight', 'fl-terminal', 'fl-gate', 'fl-dept-time', 'fl-arr', 'fl-arr-time'].forEach(function (id) {
       var el = document.getElementById(id);
       if (el) el.value = '';
     });
@@ -355,7 +385,7 @@
             '<div class="flight-mid"><span class="flight-dur">' + (dur != null ? fmtDuration(dur) : '—') + '</span></div>' +
             '<div class="flight-t"><small>Hạ cánh</small><strong>' + esc(f.arrTime) + '</strong><span>Ga ' + esc(f.terminal || '—') + '</span></div>' +
           '</div>' +
-          '<div class="flight-foot"><span>Combinator: <b>' + esc(combinatorOf(f)) + '</b></span></div>' +
+          '<div class="flight-foot"><span>Combinator: <b>' + esc(combinatorOf(f)) + '</b>' + (f.terminal ? ' · Ga ' + esc(f.terminal) : '') + (f.gate ? ' · Cửa ' + esc(f.gate) : '') + '</span></div>' +
         '</article>';
     });
     box.innerHTML = html;
@@ -525,7 +555,7 @@
     /* Panel 1 */
     var d = document.getElementById('fl-date');
     if (d) d.value = toISODate(new Date());
-    ['fl-dept', 'fl-airline', 'fl-flight', 'fl-terminal', 'fl-dept-time', 'fl-arr', 'fl-arr-time'].forEach(function (id) {
+    ['fl-dept', 'fl-airline', 'fl-flight', 'fl-terminal', 'fl-gate', 'fl-dept-time', 'fl-arr', 'fl-arr-time'].forEach(function (id) {
       var el = document.getElementById(id);
       if (el) el.addEventListener('input', function () {
         if (UPPER_FIELDS.indexOf(id) !== -1) { el.value = el.value.toUpperCase(); }
@@ -543,6 +573,7 @@
         airline: $('#fl-airline').value.trim().toUpperCase(),
         flight: $('#fl-flight').value.trim(),
         terminal: ($('#fl-terminal').value || '').trim().toUpperCase(),
+        gate: ($('#fl-gate').value || '').trim().toUpperCase(),
         deptTime: $('#fl-dept-time').value,
         arr: $('#fl-arr').value.trim().toUpperCase(),
         arrTime: $('#fl-arr-time').value
@@ -552,6 +583,7 @@
       clearFlightForm();
       showToast('✅ Đã lưu chuyến bay ' + combinatorOf(f));
       filterFlights();
+      renderAnnouncement();
     });
     $('#flight-clear').addEventListener('click', function () {
       clearFlightForm();
@@ -615,6 +647,7 @@
       filterFlights();
       renderTerms();
       renderRecentTerms();
+      renderAnnouncement();
       showToast('Đã khôi phục dữ liệu mẫu.');
     });
 
@@ -726,6 +759,8 @@
     renderHistory();
     renderTerms();
     renderRecentTerms();
+    renderAnnouncement();
+    setInterval(renderAnnouncement, 30000);
   }
 
   if (document.readyState === 'loading') {

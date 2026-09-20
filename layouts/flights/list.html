@@ -57,6 +57,10 @@
               <input id="fl-terminal" name="terminal" maxlength="2" placeholder="2">
             </div>
             <div class="fl-field">
+              <label for="fl-gate">Cửa ra máy bay <small>(không bắt buộc)</small></label>
+              <input id="fl-gate" name="gate" maxlength="3" placeholder="VD: 3 hoặc 24A">
+            </div>
+            <div class="fl-field">
               <label for="fl-dept-time">Giờ khởi hành (HH:MM)</label>
               <input id="fl-dept-time" name="deptTime" type="time" required>
             </div>
@@ -77,6 +81,10 @@
       </section>
 
       <section class="flights-panel" id="panel-fs-inquiry" role="tabpanel" aria-labelledby="tab-fs-inquiry" data-flights-panel="fs-inquiry">
+        <div class="fl-announce" role="status" aria-live="polite">
+          <span class="fl-announce-dot" aria-hidden="true"></span>
+          <p class="fl-announce-text" id="fl-announce-text">Đang đọc dữ liệu chuyến bay…</p>
+        </div>
         <div class="flights-card">
           <h2 class="flights-card-title">Tra cứu trạng thái chuyến bay</h2>
           <p class="flights-card-sub">Tìm theo sân bay, hãng, số hiệu hoặc combinator, kèm bộ lọc trạng thái và lịch sử tra cứu.</p>

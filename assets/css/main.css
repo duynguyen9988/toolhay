@@ -234,3 +234,26 @@ h1 em { color: var(--teal); font-style: italic; }
 @media (prefers-reduced-motion: reduce) { *, *:before, *:after { scroll-behavior: auto !important; transition: none !important; } }
 @media (max-width: 800px) { .blog-main { padding-top: 48px; }.blog-hero { margin-bottom: 38px; }.blog-list { grid-template-columns: 1fr; gap: 17px; }.insights-grid { grid-template-columns: 1fr; } }
 @media (max-width: 480px) { .blog-card { padding: 22px 19px 20px; }.blog-card h2 { font-size: 21px; }.blog-post-content { font-size: 15px; line-height: 1.78; }.blog-post-content h2 { font-size: 24px; }.blog-post-foot { align-items: flex-start; flex-direction: column; gap: 15px; }.delete-by-id-row { flex-direction: column; gap: 8px; }.delete-by-id-button { width: 100%; } }
+
+/* ============================================================
+   Trang Blog — bảng màu Sembcorp DNA (chỉ áp dụng cho trang blog)
+   Nguồn: https://media.sembcorp.com/data/cms/ar/ar2025/ + logo Sembcorp
+   Teal đậm #206A6D · Teal sáng #5abeba · Amber #eba75a · Xanh lá #007853
+   Font giữ nguyên hệ thống hiện tại (chỉ đổi màu).
+   ============================================================ */
+body.blog-page {
+  --teal: #206A6D;
+  --teal-dark: #17595b;
+  --mint: #e9f4f3;
+  --gold: #eba75a;
+}
+body.blog-page .blog-card:hover { border-color: #7ec4bd; box-shadow: 0 14px 38px rgba(32,106,109,.13); }
+body.blog-page .eyebrow span { box-shadow: 0 0 0 4px rgba(235,167,90,.18); }
+body.blog-page .blog-card-tag { border-color: #f0dcb6; color: #8a5a1c; background: #fcf4e5; transition: background .2s; }
+body.blog-page .blog-card:hover .blog-card-tag { background: #f0dcb6; }
+body.blog-page .blog-post-meta .meta-dot { color: #b3c4c0; }
+body.blog-page .blog-post-content a { text-decoration-color: #afd8d2; }
+body.blog-page .blog-post-content th { color: #206A6D; background: #DAF0EF; }
+body.blog-page .blog-post-content code { color: var(--teal-dark); }
+body.blog-page .blog-post-content pre { background: #0d2a2c; }
+body.blog-page .button-primary { box-shadow: 0 8px 18px rgba(32,106,109,.2); }

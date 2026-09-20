@@ -1,0 +1,33 @@
+{{ define "main" }}
+  <div class="page-shell">
+    {{ partial "site-header.html" . }}
+    <main class="blog-main">
+      <section class="blog-hero" aria-labelledby="link-hay-title">
+        <p class="eyebrow"><span></span> LINK HAY</p>
+        <h1 id="link-hay-title">Liên kết hay <em>đáng đọc</em></h1>
+        <p class="hero-description">Kho bookmark nhanh — bài viết, công cụ và tài nguyên đáng đọc ghim lại mỗi ngày, kèm ghi chú của tôi. Bấm vào thẻ để mở liên kết trong tab mới.</p>
+      </section>
+
+      <div class="link-list">
+        {{ range .Pages.ByDate.Reverse }}
+          {{ $domain := or .Params.domain ((urls.Parse .Params.link_url).Host) }}
+          <a class="link-card" href="{{ .Params.link_url }}" target="_blank" rel="noopener noreferrer">
+            <span class="link-card-domain">{{ $domain }}</span>
+            <h2>{{ .Title }}</h2>
+            <p class="link-card-note">{{ .Description }}</p>
+            <div class="link-card-meta">
+              <span class="meta-item"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg><time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "02/01/2006" }}</time></span>
+              {{ range .Params.tags }}<span class="link-card-tag">#{{ . }}</span>{{ end }}
+              <span class="link-card-arrow" aria-hidden="true"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg></span>
+            </div>
+          </a>
+        {{ end }}
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <p><span>₫</span> Sổ Chi Tiêu <small>· Dữ liệu của bạn luôn ở trên thiết bị này.</small></p>
+      <p>Thiết kế để bạn chi tiêu chủ động hơn.</p>
+    </footer>
+  </div>
+{{ end }}

@@ -2,25 +2,30 @@
   <div class="page-shell">
     {{ partial "site-header.html" . }}
     <main class="blog-main">
-      <article class="blog-post">
+      <article class="blog-post link-post">
         <header class="blog-post-header">
-          {{ if .Params.topic }}<p class="eyebrow"><span></span> {{ upper .Params.topic }}</p>{{ end }}
+          <p class="eyebrow"><span></span> LINK HAY</p>
           <h1>{{ .Title }}</h1>
           <div class="blog-post-meta">
+            {{ $domain := or .Params.domain ((urls.Parse .Params.link_url).Host) }}
             <span class="meta-item"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg><time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Ngày 2 tháng 1, 2006" }}</time></span>
             <span aria-hidden="true">·</span>
-            <span class="meta-item"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg><span>{{ .ReadingTime }} phút đọc</span></span>
+            <span class="meta-item">🔗 {{ $domain }}</span>
           </div>
           <p class="blog-post-desc">{{ .Description }}</p>
+          <div class="link-post-actions">
+            <a class="button button-primary" href="{{ .Params.link_url }}" target="_blank" rel="noopener noreferrer">Mở liên kết <span aria-hidden="true">↗</span></a>
+          </div>
+          <div class="link-post-tags">
+            {{ range .Params.tags }}<span class="link-card-tag">#{{ . }}</span>{{ end }}
+          </div>
         </header>
 
-        <div class="blog-post-content">
-          {{ .Content }}
-        </div>
+        <div class="link-post-content" hidden></div>
 
         <footer class="blog-post-foot">
-          <p>Bài viết thuộc chuyên mục <strong>{{ with .Params.topic }}{{ . }}{{ else }}Blog{{ end }}</strong>.</p>
-          <a class="button button-primary" href="{{ "blog/" | relURL }}"><svg class="icon btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>Về trang Blog</a>
+          <p>Thuộc chuyên mục <strong>Link Hay</strong>.</p>
+          <a class="button button-primary" href="{{ "link-hay/" | relURL }}"><svg class="icon btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>Về trang Link Hay</a>
         </footer>
       </article>
     </main>

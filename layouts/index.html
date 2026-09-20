@@ -13,6 +13,7 @@
         <a class="nav-link" href="#dashboard" data-view-link="dashboard">Dashboard</a>
         <a class="nav-link" href="{{ "tools/" | relURL }}">Công cụ</a>
         <a class="nav-link" href="{{ "blog/" | relURL }}">Blog</a>
+        <a class="nav-link" href="{{ "link-hay/" | relURL }}">Link Hay</a>
       </nav>
       <button class="header-action" type="button" data-scroll-to="input">+ Nhập chi tiêu</button>
     </header>
@@ -44,7 +45,33 @@
         </a>
         {{ end }}
       </section>
-    
+
+      <section class="link-latest" aria-labelledby="link-latest-title">
+        <div class="blog-latest-heading">
+          <div>
+            <p class="eyebrow"><span></span> LINK HAY</p>
+            <h2 id="link-latest-title">Liên kết hay gần đây</h2>
+          </div>
+          <a href="{{ "link-hay/" | relURL }}">Mở kho Link Hay <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>
+        </div>
+        {{ range first 3 (where site.RegularPages "Section" "link-hay") }}
+        <a class="link-latest-card" href="{{ .Params.link_url }}" target="_blank" rel="noopener noreferrer">
+          <div class="blog-latest-row">
+            <div class="blog-latest-main">
+              <span class="blog-latest-tag">{{ .Params.domain }}</span>
+              <h3>{{ .Title }}</h3>
+              <p>{{ .Description }}</p>
+              <div class="blog-latest-meta">
+                <span class="meta-item"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg><time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "02/01/2006" }}</time></span>
+                <span aria-hidden="true">·</span>
+                <span class="meta-item">🔗 liên kết ngoài</span>
+              </div>
+            </div>
+            <span class="blog-latest-arrow" aria-hidden="true"><svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M7 7h10v10"/></svg></span>
+          </div>
+        </a>
+        {{ end }}
+      </section>
 
       <section class="hero" aria-labelledby="hero-title">
         <div class="hero-copy">

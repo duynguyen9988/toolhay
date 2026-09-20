@@ -7,7 +7,7 @@
 
   const STORAGE_KEY = 'so-chi-tieu-transactions-v1';
   const categoryIcons = {
-    'Ăn uống': '🍜', 'Di chuyển': '🛵', 'Mua sắm': '🛍️', 'Hóa đơn': '⌂',
+    'Ăn uống': '🍜', 'Ăn': '🍛', 'Cà phê': '☕', 'Di chuyển': '🛵', 'Mua sắm': '🛍️', 'Hóa đơn': '⌂',
     'Sức khỏe': '✚', 'Giải trí': '✦', 'Khác': '•••', 'Lương': '💼',
     'Thưởng': '✦', 'Kinh doanh': '↗', 'Thu nhập': '↗'
   };
@@ -301,10 +301,10 @@
       cards.push(insightCard('📈', 'Món chi tiêu nhiều nhất', text, 'is-top'));
     }
 
-    const drinks = summarizeGroup(monthExpenses.filter(item => item.category === 'Ăn uống'), item => (item.itemName || item.category || '').trim().toLowerCase(), item => item.itemName || item.category);
+    const drinks = summarizeGroup(monthExpenses.filter(item => ['Ăn uống', 'Ăn', 'Cà phê'].includes(item.category)), item => (item.itemName || item.category || '').trim().toLowerCase(), item => item.itemName || item.category);
     const [topDrink] = drinks;
     if (topDrink) {
-      let text = `Trong nhóm Ăn uống, <strong>"${escapeHTML(topDrink.label)}"</strong> là món chi nhiều nhất: <strong>${formatMoney(topDrink.sum)}</strong> sau ${number.format(topDrink.count)} lần.`;
+      let text = `Trong nhóm Ăn & Cà phê, <strong>"${escapeHTML(topDrink.label)}"</strong> là món chi nhiều nhất: <strong>${formatMoney(topDrink.sum)}</strong> sau ${number.format(topDrink.count)} lần.`;
       const secondDrink = drinks[1];
       if (secondDrink) text += ` Hạng nhì: "${escapeHTML(secondDrink.label)}" (${formatMoney(secondDrink.sum)}).`;
       cards.push(insightCard('🍜', 'Đồ ăn & thức uống', text));

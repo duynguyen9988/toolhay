@@ -1,0 +1,119 @@
+{{ define "main" }}
+  <div class="page-shell">
+    {{ partial "site-header.html" . }}
+    <main class="flights-main">
+      <section class="flights-hero" aria-labelledby="sb-title">
+        <p class="eyebrow"><span></span> STARBUCKS REWARDS™ VN · CÔNG CỤ</p>
+        <h1 id="sb-title">Tính sao Starbucks <em>cho hạng Gold</em></h1>
+        <p class="hero-description">Ước tính số sao bạn tích được cho mỗi giao dịch theo đúng tỷ lệ Điều khoản &amp; Điều kiện Starbucks Rewards™ Việt Nam — và biết chính xác cần chi bao nhiêu để <b>đạt / duy trì hạng Gold</b> (100 sao trong 12 tháng). Toàn bộ tính toán chạy ngay trên thiết bị của bạn.</p>
+      </section>
+
+      <!-- ===== Module 1: Star Estimator ===== -->
+      <section class="flights-card" aria-labelledby="sb-estimate-title">
+        <h2 class="flights-card-title" id="sb-estimate-title">1 · Ước tính số sao nhận được</h2>
+        <p class="flights-card-sub">Nhập số tiền chi tiêu và chọn phương thức thanh toán — số sao cập nhật tức thì.</p>
+        <form class="flights-form" id="sb-form" autocomplete="off" novalidate>
+          <div class="fl-field fl-span-2">
+            <label for="sb-amount">Số tiền chi tiêu (VNĐ)</label>
+            <input id="sb-amount" name="amount" type="text" inputmode="numeric" maxlength="15" placeholder="VD: 120.000 hoặc 250000" aria-label="Số tiền chi tiêu bằng đồng Việt Nam">
+          </div>
+          <div class="fl-field fl-span-2">
+            <label>Phương thức thanh toán</label>
+            <div class="sb-methods" id="sb-method" role="radiogroup" aria-label="Phương thức thanh toán">
+              <label class="sb-method">
+                <input type="radio" name="sbMethod" value="card" checked>
+                <span><b>Thẻ Starbucks đã đăng ký</b><small>40.000đ = 1 sao</small></span>
+              </label>
+              <label class="sb-method">
+                <input type="radio" name="sbMethod" value="general">
+                <span><b>Tiền mặt / Ví / POS / App Starbucks</b><small>60.000đ = 1 sao</small></span>
+              </label>
+              <label class="sb-method">
+                <input type="radio" name="sbMethod" value="third">
+                <span><b>App bên thứ 3 (Grab, Baemin…)</b><small>80.000đ = 1 sao · tiền mặt qua app không tích</small></span>
+              </label>
+            </div>
+          </div>
+          <div class="fl-span-4">
+            <div class="sb-banner">
+              <span class="sb-star-ico" aria-hidden="true">★</span>
+              <div>
+                <p class="sb-banner-big" id="sb-stars-out">0 <b>sao</b></p>
+                <p class="sb-banner-sub" id="sb-stars-perk">Nhập số tiền để xem giá trị phần thưởng tương đương.</p>
+              </div>
+            </div>
+          </div>
+        </form>
+      </section>
+
+      <!-- ===== Module 2: Gold Tier Progress Tracker ===== -->
+      <section class="flights-card" aria-labelledby="sb-gold-title">
+        <h2 class="flights-card-title" id="sb-gold-title">2 · Chi phí đạt / duy trì hạng Gold</h2>
+        <p class="flights-card-sub">Hạng Gold: đạt <b>100 sao trong 12 tháng liên tục</b> — và duy trì 100 sao ở chu kỳ 12 tháng tiếp theo để giữ hạng.</p>
+        <form class="flights-form" id="sb-gold-form" autocomplete="off" novalidate>
+          <div class="fl-field fl-span-2">
+            <label for="sb-current">Số sao hiện có của bạn</label>
+            <input id="sb-current" name="current" type="text" inputmode="numeric" maxlength="5" placeholder="VD: 35" aria-label="Số sao Starbucks hiện có">
+          </div>
+          <div class="fl-field fl-span-2">
+            <label for="sb-method2">Phương thức thanh toán thường dùng</label>
+            <select id="sb-method2" class="bk-select">
+              <option value="card">Thẻ Starbucks (40.000đ = 1 sao)</option>
+              <option value="general">Tiền mặt / Ví / POS (60.000đ = 1 sao)</option>
+              <option value="third">App bên thứ 3 (80.000đ = 1 sao)</option>
+            </select>
+          </div>
+          <div class="fl-span-4">
+            <div class="sb-gold-grid">
+              <div class="sb-gold-cell">
+                <p class="sb-cell-label">★ Sao còn thiếu</p>
+                <p class="sb-cell-big" id="sb-remain">100</p>
+              </div>
+              <div class="sb-gold-cell">
+                <p class="sb-cell-label">Cần chi tiêu thêm</p>
+                <p class="sb-cell-big sb-cell-money" id="sb-spend">4.000.000 đ</p>
+              </div>
+              <div class="sb-gold-cell sb-gold-cell--all">
+                <p class="sb-cell-label">Tiến độ lên Gold</p>
+                <div class="sb-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Tiến độ tích sao lên hạng Gold">
+                  <i id="sb-bar-fill" style="width:0%"></i>
+                </div>
+                <p class="sb-bar-text" id="sb-bar-text">0 / 100 sao</p>
+              </div>
+            </div>
+          </div>
+        </form>
+      </section>
+
+      <!-- ===== Reference T&C ===== -->
+      <details class="flights-card sb-ref">
+        <summary>
+          <h2 class="flights-card-title">📖 Quy đổi sao &amp; điều kiện hạng Gold (T&amp;C)</h2>
+        </summary>
+        <p class="flights-card-sub">Tóm tắt theo Điều khoản &amp; Điều kiện <b>Starbucks Rewards™ Việt Nam</b>. Bạn vui lòng đối chiếu bản T&amp;C chính thức mới nhất trên app Starbucks.</p>
+        <table class="sb-table">
+          <thead>
+            <tr><th>Phương thức thanh toán</th><th>Tỷ lệ tích sao</th><th>100 sao (hạng Gold)</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Thẻ Starbucks đã đăng ký</td><td>40.000đ = 1 sao</td><td>4.000.000đ</td></tr>
+            <tr><td>Tiền mặt · Ví điện tử · POS / Chuyển khoản · App Starbucks</td><td>60.000đ = 1 sao</td><td>6.000.000đ</td></tr>
+            <tr><td>App bên thứ 3 (Grab, Baemin, ShopeeFood…)</td><td>80.000đ = 1 sao <small>(tiền mặt qua app không tích sao)</small></td><td>8.000.000đ</td></tr>
+          </tbody>
+        </table>
+        <ul class="sb-notes">
+          <li><b>Lên hạng Gold:</b> đạt <b>100 sao</b> trong <b>12 tháng liên tục</b>.</li>
+          <li><b>Duy trì Gold:</b> đạt tiếp <b>100 sao</b> trong chu kỳ 12 tháng kế tiếp, nếu không sẽ trở lại hạng Silver.</li>
+          <li><b>Phần thưởng tham khảo:</b> 10 sao = giảm 20.000đ · 20 sao = giảm 50.000đ · 30 sao = 1 đồ uống Grande miễn phí.</li>
+        </ul>
+      </details>
+    </main>
+
+    <footer class="site-footer">
+      <p><span>₫</span> Sổ Chi Tiêu <small>· Dữ liệu của bạn luôn ở trên thiết bị này.</small></p>
+      <p>Thiết kế để bạn chi tiêu chủ động hơn.</p>
+    </footer>
+  </div>
+  {{ $starbucksScript := resources.Get "js/starbucks.js" | minify | fingerprint }}
+  <script src="{{ $starbucksScript.RelPermalink }}" integrity="{{ $starbucksScript.Data.Integrity }}" defer></script>
+{{ end }}

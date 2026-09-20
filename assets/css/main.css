@@ -631,3 +631,53 @@ h1 em { color: var(--teal); }
   .bk-discount { font-size: 21px; }
   .bk-card { padding: 17px 16px 13px; }
 }
+
+/* ============================================================
+   Starbucks Rewards™ — Tính sao & tiến độ hạng Gold
+   ============================================================ */
+.sb-methods { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.sb-method { display: flex; align-items: flex-start; gap: 8px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 10px; background: #fff; cursor: pointer; transition: border-color .15s, box-shadow .15s, background .15s; }
+.sb-method:hover { border-color: #00a389; }
+.sb-method:has(input:checked) { border-color: #00a389; background: #EDF8E4; box-shadow: 0 0 0 3px rgba(0,163,137,.14); }
+.sb-method input { flex: 0 0 auto; width: 15px; height: 15px; margin: 2px 0 0; accent-color: #00a389; cursor: pointer; }
+.sb-method b { display: block; font-size: 11.5px; font-weight: 700; color: var(--sc-dark); line-height: 1.35; }
+.sb-method small { display: block; margin-top: 2px; color: var(--muted); font-size: 10px; font-weight: 600; line-height: 1.4; }
+
+.sb-banner { display: flex; align-items: center; gap: 15px; padding: 16px 18px; border-radius: 13px; background: #003b46; color: #fff; box-shadow: 0 10px 22px rgba(0,59,70,.22); }
+.sb-star-ico { font-size: 34px; line-height: 1; color: #E9C46A; text-shadow: 0 3px 10px rgba(233,196,106,.45); }
+.sb-banner-big { margin: 0; font-family: var(--serif); font-size: 34px; font-weight: 700; letter-spacing: -.02em; line-height: 1.1; }
+.sb-banner-big b { color: #E9C46A; font-size: 20px; }
+.sb-banner-sub { margin: 4px 0 0; color: #C9DADF; font-size: 11.5px; line-height: 1.55; }
+
+.sb-gold-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.sb-gold-cell { padding: 14px 16px; border: 1px solid var(--line); border-radius: 12px; background: #F8FAFC; }
+.sb-gold-cell--all { background: #FFFDF7; border-color: #EAD9B4; }
+.sb-cell-label { margin: 0 0 6px; color: var(--muted); font-size: 10.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; }
+.sb-cell-big { margin: 0; font-family: var(--serif); font-size: 25px; font-weight: 700; color: var(--sc-dark); letter-spacing: -.02em; }
+.sb-cell-money { color: #00a389; }
+.sb-bar { height: 12px; border-radius: 999px; background: #E2E8F0; overflow: hidden; box-shadow: inset 0 1px 2px rgba(15,23,42,.08); }
+.sb-bar i { display: block; height: 100%; border-radius: 999px; background: linear-gradient(90deg, #E9C46A, #D4A373); box-shadow: 0 1px 4px rgba(212,163,115,.5); transition: width .35s ease; }
+.sb-bar-text { margin: 7px 0 0; color: #7C5A2E; font-size: 11px; font-weight: 700; }
+
+.sb-ref { margin-top: 18px; }
+.sb-ref summary { cursor: pointer; list-style: none; }
+.sb-ref summary::-webkit-details-marker { display: none; }
+.sb-ref summary .flights-card-title { margin: 0; }
+.sb-ref[open] summary { margin-bottom: 12px; }
+.sb-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.sb-table th, .sb-table td { padding: 9px 12px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+.sb-table th { color: #fff; background: #003b46; font-size: 10.5px; text-transform: uppercase; letter-spacing: .04em; }
+.sb-table td { color: #334155; }
+.sb-table td small { color: var(--muted); display: block; }
+.sb-table tbody tr:last-child td { border-bottom: 0; }
+.sb-notes { margin: 12px 0 0; padding-left: 18px; color: #475569; font-size: 12px; line-height: 1.8; }
+.sb-notes b { color: var(--sc-dark); }
+
+@media (max-width: 800px) {
+  .sb-methods { grid-template-columns: 1fr; }
+  .sb-gold-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 480px) {
+  .sb-banner { flex-direction: column; align-items: flex-start; gap: 8px; }
+  .sb-banner-big { font-size: 28px; }
+}
